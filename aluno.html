@@ -1,0 +1,4001 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Área do Aluno — Teacher Tiago</title>
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMyNzNiODkiLz48dGV4dCB4PSIxNCIgeT0iNDUiIGZvbnQtZmFtaWx5PSJNb250c2VycmF0LEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI4MDAiIGZvbnQtc2l6ZT0iMzQiIGZpbGw9IiNmZmYiPlQ8L3RleHQ+PGNpcmNsZSBjeD0iNDUiIGN5PSI0MiIgcj0iNSIgZmlsbD0iI2ZmZGU1OSIvPjwvc3ZnPgo=" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+/* Teacher Tiago — Gestão de alunos
+   Estilos da plataforma. Cores da marca nas variáveis de :root. */
+
+:root {
+  --base: #0f1741;
+  --blue: #273b89;
+  --blue2: #3a54b8;
+  --yel: #ffde59;
+  --red: #cb3348;
+  --red-t: #ff8b9b;
+  --green: #5fd49a;
+  --info: #8fb0ff;
+  --text: #ffffff;
+  --muted: #b9c0e0;
+  --dim: #8a93c0;
+  --glass: rgba(255, 255, 255, 0.07);
+  --glass2: rgba(255, 255, 255, 0.12);
+  --line: rgba(255, 255, 255, 0.14);
+  --line2: rgba(255, 255, 255, 0.08);
+  --field: rgba(7, 12, 40, 0.45);
+  --r-l: 22px;
+  --r-m: 14px;
+  --r-s: 10px;
+  --font: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color-scheme: dark;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --base: #0f1741;
+    --text: #ffffff;
+  }
+}
+:root[data-theme="dark"] {
+  --base: #0f1741;
+  --text: #ffffff;
+}
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+body {
+  background: var(--base);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14.5px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60vmax 50vmax at 88% 6%, rgba(62, 88, 190, 0.85), transparent 60%),
+    radial-gradient(50vmax 45vmax at 6% 72%, rgba(52, 76, 170, 0.75), transparent 60%),
+    radial-gradient(40vmax 35vmax at 55% 45%, rgba(24, 36, 98, 0.9), transparent 70%),
+    radial-gradient(35vmax 30vmax at 96% 96%, rgba(80, 110, 215, 0.55), transparent 60%), var(--base);
+}
+.bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+a {
+  color: var(--yel);
+}
+:focus-visible {
+  outline: 2px solid var(--yel);
+  outline-offset: 2px;
+}
+h1,
+h2,
+h3 {
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* shell */
+.app {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+}
+.side {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 28px 18px;
+  border-right: 1px solid var(--line2);
+  background: rgba(8, 13, 44, 0.35);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.brand {
+  padding: 0 10px;
+}
+.brand b {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: block;
+  line-height: 1.1;
+}
+.brand b i {
+  color: var(--yel);
+  font-style: normal;
+}
+.brand span {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.nav a:hover {
+  background: var(--glass);
+  color: #fff;
+}
+.nav a.on {
+  background: var(--glass2);
+  color: #fff;
+  box-shadow: inset 3px 0 0 var(--yel);
+}
+.nav svg,
+.tabbar svg {
+  width: 19px;
+  height: 19px;
+  flex: none;
+}
+.side-foot {
+  margin-top: auto;
+  padding: 0 10px;
+  font-size: 12px;
+  color: var(--dim);
+}
+main {
+  padding: 34px 40px 60px;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  min-width: 0;
+}
+.tabbar {
+  display: none;
+}
+
+/* type & common */
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+.page-head h1 {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+.page-head p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.sec {
+  padding: 22px 24px;
+}
+.sec-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.sec-title h2 {
+  font-size: 17px;
+  font-weight: 700;
+}
+.muted {
+  color: var(--muted);
+}
+.dim {
+  color: var(--dim);
+}
+a.btn {
+  color: inherit;
+  text-decoration: none;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 13.5px;
+  transition:
+    background 0.15s,
+    transform 0.1s,
+    border-color 0.15s;
+  white-space: nowrap;
+}
+.btn:hover {
+  background: var(--glass2);
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn.pri {
+  background: var(--yel);
+  border-color: var(--yel);
+  color: #141c4a;
+}
+.btn.pri:hover {
+  background: #ffe782;
+}
+.btn.danger {
+  color: var(--red-t);
+  border-color: rgba(255, 139, 155, 0.35);
+}
+.btn.sm {
+  padding: 7px 12px;
+  font-size: 12.5px;
+  border-radius: 10px;
+}
+.btn.icon {
+  padding: 9px;
+  width: 40px;
+  height: 40px;
+}
+.btn svg {
+  width: 17px;
+  height: 17px;
+}
+.btn[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.grid2 {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 20px;
+}
+.empty {
+  padding: 28px 10px;
+  text-align: center;
+  color: var(--muted);
+}
+.empty b {
+  display: block;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+/* badges */
+.bdg {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: var(--glass2);
+  white-space: nowrap;
+}
+.bdg::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.bdg.pago,
+.bdg.realizada,
+.bdg.ativo {
+  color: var(--green);
+  background: rgba(95, 212, 154, 0.13);
+}
+.bdg.pendente,
+.bdg.remarcada,
+.bdg.pausado {
+  color: var(--yel);
+  background: rgba(255, 222, 89, 0.12);
+}
+.bdg.atrasado,
+.bdg.cancelada {
+  color: var(--red-t);
+  background: rgba(203, 51, 72, 0.2);
+}
+.bdg.agendada {
+  color: var(--info);
+  background: rgba(143, 176, 255, 0.14);
+}
+.bdg.encerrado {
+  color: var(--muted);
+  background: var(--glass);
+}
+.lvl {
+  display: inline-grid;
+  place-items: center;
+  min-width: 34px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 8px;
+  background: rgba(255, 222, 89, 0.14);
+  color: var(--yel);
+  font-weight: 800;
+  font-size: 12px;
+}
+
+/* stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.stats.dash {
+  grid-template-columns: 1.2fr repeat(3, minmax(0, 1fr));
+}
+.stats.dash .hl {
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.stats.dash .hl .v {
+  font-size: 64px;
+  margin-top: 0;
+}
+.stat {
+  padding: 18px 18px 16px;
+  border-radius: 18px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+}
+.stat .l {
+  font-size: 12.5px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.stat .v {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-top: 6px;
+  line-height: 1.1;
+}
+.stat .s {
+  font-size: 12px;
+  color: var(--dim);
+  margin-top: 4px;
+}
+.stat.hl {
+  background: linear-gradient(160deg, rgba(255, 222, 89, 0.16), rgba(255, 222, 89, 0.04));
+  border-color: rgba(255, 222, 89, 0.4);
+}
+.stat.hl .v {
+  color: var(--yel);
+}
+.stat.warn .v {
+  color: var(--red-t);
+}
+
+/* hero today */
+.hello {
+  margin-bottom: 26px;
+}
+.hello h1 {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+.hello p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+/* lists */
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  display: grid;
+  grid-template-columns: 70px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 4px;
+  border-top: 1px solid var(--line2);
+  text-align: left;
+  background: none;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  width: 100%;
+}
+.row:first-child {
+  border-top: 0;
+}
+button.row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+.row .t {
+  font-weight: 800;
+  font-size: 15px;
+}
+.row .t small {
+  display: block;
+  font-weight: 600;
+  font-size: 11.5px;
+  color: var(--dim);
+}
+.row .n {
+  font-weight: 600;
+}
+.row .n small {
+  display: block;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 12.5px;
+}
+.att {
+  display: flex;
+  gap: 12px;
+  padding: 12px 4px;
+  border-top: 1px solid var(--line2);
+  align-items: flex-start;
+  text-align: left;
+  background: none;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  width: 100%;
+}
+.att:first-child {
+  border-top: 0;
+}
+button.att:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+.att i {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-top: 6px;
+}
+.att .tx {
+  font-weight: 600;
+}
+.att .tx small {
+  display: block;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* students */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.search {
+  flex: 1 1 260px;
+  position: relative;
+}
+.search input {
+  width: 100%;
+  padding-left: 40px;
+}
+.search svg {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px;
+  height: 17px;
+  color: var(--dim);
+}
+.chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.chip {
+  border: 1px solid var(--line);
+  background: transparent;
+  border-radius: 99px;
+  padding: 7px 14px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--muted);
+}
+.chip.on {
+  background: #fff;
+  color: #141c4a;
+  border-color: #fff;
+}
+.stu {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1.6fr) 70px minmax(0, 1.3fr) 120px 24px;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 18px;
+  border-top: 1px solid var(--line2);
+  width: 100%;
+  text-align: left;
+  background: none;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+.stu:first-child {
+  border-top: 0;
+}
+.stu:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+.av {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  background: linear-gradient(145deg, var(--blue2), var(--blue));
+  border: 1px solid var(--line);
+  font-size: 15px;
+}
+.stu .nm {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stu .nm small {
+  display: block;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 12.5px;
+}
+.stu .sch {
+  font-size: 13px;
+  color: var(--muted);
+}
+.chev {
+  width: 18px;
+  height: 18px;
+  color: var(--dim);
+}
+
+/* profile */
+.prof-head {
+  padding: 26px 28px;
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.prof-head .av {
+  width: 68px;
+  height: 68px;
+  border-radius: 20px;
+  font-size: 23px;
+}
+.prof-head h1 {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 10px;
+}
+.fact {
+  font-size: 13px;
+  color: var(--muted);
+}
+.fact b {
+  color: #fff;
+  font-weight: 700;
+  margin-left: 4px;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin: 18px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--line2);
+}
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+.tabs button {
+  background: none;
+  border: 0;
+  padding: 12px 14px;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.tabs button.on {
+  color: #fff;
+  border-bottom-color: var(--yel);
+}
+.kv {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px 24px;
+}
+.kv div small {
+  display: block;
+  font-size: 12px;
+  color: var(--dim);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.kv div {
+  font-weight: 600;
+  word-break: break-word;
+}
+.note {
+  white-space: pre-wrap;
+  color: #e7eaf7;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.lesson {
+  padding: 16px 4px;
+  border-top: 1px solid var(--line2);
+  display: grid;
+  grid-template-columns: 86px 1fr auto;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+.lesson:first-child {
+  border-top: 0;
+}
+.lesson:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+.lesson .num {
+  font-weight: 800;
+  font-size: 18px;
+}
+.lesson .num small {
+  display: block;
+  font-size: 12px;
+  color: var(--dim);
+  font-weight: 600;
+}
+.lesson p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.lesson p b {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* level track */
+.track {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin: 6px 0 4px;
+}
+.step {
+  position: relative;
+  padding: 14px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  text-align: center;
+}
+.step b {
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--dim);
+}
+.step small {
+  display: block;
+  font-size: 11px;
+  color: var(--dim);
+  min-height: 16px;
+}
+.step.done {
+  background: rgba(255, 222, 89, 0.08);
+  border-color: rgba(255, 222, 89, 0.3);
+}
+.step.done b {
+  color: var(--yel);
+}
+.step.cur {
+  background: var(--yel);
+  border-color: var(--yel);
+}
+.step.cur b,
+.step.cur small {
+  color: #141c4a;
+}
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 120px;
+  padding-top: 10px;
+}
+.bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  justify-content: flex-end;
+}
+.bar i {
+  display: block;
+  width: 100%;
+  max-width: 42px;
+  border-radius: 8px 8px 3px 3px;
+  background: linear-gradient(180deg, var(--yel), rgba(255, 222, 89, 0.35));
+  min-height: 3px;
+}
+.bar span {
+  font-size: 11px;
+  color: var(--dim);
+  font-weight: 600;
+}
+.bar em {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 700;
+}
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+.tl {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 12px;
+  padding-bottom: 16px;
+  position: relative;
+}
+.tl::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 14px;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+.tl:last-child::before {
+  display: none;
+}
+.tl i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--yel);
+  margin-top: 5px;
+}
+.tl small {
+  color: var(--dim);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* finance list */
+.fin {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) 1fr 1fr 110px 170px;
+  gap: 12px;
+  align-items: center;
+  padding: 13px 18px;
+  border-top: 1px solid var(--line2);
+}
+.fin:first-child {
+  border-top: 0;
+}
+.fin.hd {
+  font-size: 12px;
+  color: var(--dim);
+  font-weight: 700;
+  padding-top: 14px;
+  padding-bottom: 10px;
+}
+.fin .nm {
+  font-weight: 700;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+}
+.fin .act {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+/* calendar */
+.cal-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.cal-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.cal-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-right: 8px;
+  letter-spacing: -0.01em;
+}
+.seg {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 12px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+}
+.seg button {
+  border: 0;
+  background: none;
+  padding: 7px 14px;
+  border-radius: 9px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--muted);
+}
+.seg button.on {
+  background: #fff;
+  color: #141c4a;
+}
+.dateinp {
+  width: 150px;
+  padding: 8px 10px !important;
+}
+.cal {
+  overflow: hidden;
+  padding: 0;
+}
+.cal-scroll {
+  overflow: auto;
+  max-height: calc(100vh - 210px);
+}
+.wk {
+  display: grid;
+  grid-template-columns: 58px repeat(var(--cols), minmax(118px, 1fr));
+  min-width: calc(58px + var(--cols) * 118px);
+}
+.wk-h {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(18, 28, 78, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  padding: 12px 8px;
+  text-align: center;
+}
+.wk-h.corner {
+  left: 0;
+  z-index: 6;
+}
+.wk-h small {
+  display: block;
+  font-size: 11.5px;
+  color: var(--dim);
+  font-weight: 700;
+}
+.wk-h b {
+  font-size: 20px;
+  font-weight: 800;
+}
+.wk-h.today b {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--yel);
+  color: #141c4a;
+  font-size: 16px;
+}
+.wk-h button {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.times {
+  position: sticky;
+  left: 0;
+  z-index: 4;
+  background: rgba(15, 23, 65, 0.85);
+}
+.times div {
+  height: 60px;
+  font-size: 11px;
+  color: var(--dim);
+  font-weight: 600;
+  text-align: right;
+  padding-right: 9px;
+  transform: translateY(-7px);
+}
+.times div:first-child {
+  visibility: hidden;
+}
+.col {
+  position: relative;
+  border-left: 1px solid var(--line2);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--line2) 0,
+    var(--line2) 1px,
+    transparent 1px,
+    transparent 60px
+  );
+  cursor: copy;
+}
+.col.today {
+  background-color: rgba(255, 222, 89, 0.035);
+}
+.now {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--yel);
+  z-index: 3;
+  pointer-events: none;
+}
+.now::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--yel);
+}
+.ev {
+  position: absolute;
+  z-index: 2;
+  padding: 6px 8px 6px 10px;
+  border-radius: 11px;
+  border: 1px solid rgba(143, 176, 255, 0.35);
+  background: linear-gradient(160deg, rgba(143, 176, 255, 0.3), rgba(143, 176, 255, 0.14));
+  text-align: left;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(5, 10, 40, 0.25);
+  transition:
+    transform 0.12s,
+    box-shadow 0.12s;
+  cursor: pointer;
+}
+.ev::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--info);
+}
+.ev:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(5, 10, 40, 0.35);
+  z-index: 4;
+}
+.ev b {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ev span {
+  display: block;
+  font-size: 11.5px;
+  color: #dfe5ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ev.realizada {
+  border-color: rgba(95, 212, 154, 0.4);
+  background: linear-gradient(160deg, rgba(95, 212, 154, 0.28), rgba(95, 212, 154, 0.12));
+}
+.ev.realizada::before {
+  background: var(--green);
+}
+.ev.remarcada {
+  border-color: rgba(255, 222, 89, 0.45);
+  background: linear-gradient(160deg, rgba(255, 222, 89, 0.26), rgba(255, 222, 89, 0.1));
+}
+.ev.remarcada::before {
+  background: var(--yel);
+}
+.ev.cancelada {
+  border-color: rgba(255, 139, 155, 0.35);
+  background: rgba(203, 51, 72, 0.14);
+  opacity: 0.7;
+}
+.ev.cancelada::before {
+  background: var(--red);
+}
+.ev.cancelada b {
+  text-decoration: line-through;
+}
+.ev.pend::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--yel);
+  box-shadow: 0 0 0 3px rgba(255, 222, 89, 0.25);
+}
+.day .wk {
+  grid-template-columns: 58px 1fr;
+  min-width: 0;
+}
+.day .ev {
+  padding: 10px 14px;
+}
+.day .ev b {
+  font-size: 14.5px;
+}
+.day .ev span {
+  font-size: 12.5px;
+}
+.mo {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.mo-h {
+  padding: 12px 10px;
+  font-size: 12px;
+  color: var(--dim);
+  font-weight: 700;
+  border-bottom: 1px solid var(--line);
+}
+.mo-c {
+  min-height: 112px;
+  padding: 8px;
+  border-top: 1px solid var(--line2);
+  border-left: 1px solid var(--line2);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+  background: none;
+  border-right: 0;
+  border-bottom: 0;
+  min-width: 0;
+}
+.mo-c:nth-child(7n + 1) {
+  border-left: 0;
+}
+.mo-c:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+.mo-c .d {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 3px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+.mo-c.out {
+  opacity: 0.4;
+}
+.mo-c.today .d {
+  background: var(--yel);
+  color: #141c4a;
+}
+.pill {
+  display: block;
+  font-size: 11.5px;
+  padding: 3px 7px;
+  border-radius: 7px;
+  background: rgba(143, 176, 255, 0.2);
+  border-left: 3px solid var(--info);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  text-align: left;
+  width: 100%;
+}
+.pill.realizada {
+  background: rgba(95, 212, 154, 0.18);
+  border-left-color: var(--green);
+}
+.pill.remarcada {
+  background: rgba(255, 222, 89, 0.16);
+  border-left-color: var(--yel);
+}
+.pill.cancelada {
+  background: rgba(203, 51, 72, 0.16);
+  border-left-color: var(--red);
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+.more {
+  font-size: 11.5px;
+  color: var(--muted);
+  font-weight: 600;
+  padding-left: 4px;
+}
+.legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+/* forms & modal */
+input,
+select,
+textarea {
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px 13px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--yel);
+}
+select option {
+  background: #16205a;
+}
+textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+input[type="checkbox"] {
+  width: auto;
+}
+label.f {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.fg {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.fg .full {
+  grid-column: 1/-1;
+}
+.fs {
+  border: 0;
+  padding: 0;
+  margin: 0 0 22px;
+}
+.fs legend {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 12px;
+  padding: 0;
+}
+.days {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+.dayopt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.dayopt.on {
+  border-color: rgba(255, 222, 89, 0.55);
+  background: rgba(255, 222, 89, 0.07);
+}
+.dayopt label {
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  min-width: 52px;
+}
+.dayopt input[type="time"] {
+  padding: 6px 8px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+.dayopt input[type="checkbox"] {
+  accent-color: var(--yel);
+  width: 16px;
+  height: 16px;
+}
+.hint {
+  font-size: 12px;
+  color: var(--dim);
+  margin-top: 6px;
+}
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(5, 9, 32, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fade 0.15s ease;
+}
+.modal {
+  width: min(720px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+  background: rgba(22, 33, 92, 0.96);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  animation: pop 0.18s ease;
+}
+.modal.sm {
+  width: min(460px, 100%);
+}
+.m-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px 6px;
+  gap: 12px;
+}
+.m-h h2 {
+  font-size: 20px;
+  font-weight: 800;
+}
+.m-b {
+  padding: 14px 24px 8px;
+}
+.m-f {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px 22px;
+  flex-wrap: wrap;
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(22, 33, 92, 0), rgba(22, 33, 92, 0.98) 30%);
+}
+.drawer {
+  position: fixed;
+  z-index: 55;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(400px, 100%);
+  background: rgba(20, 30, 86, 0.97);
+  border-left: 1px solid var(--line);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.35);
+  padding: calc(24px + env(safe-area-inset-top, 0px)) 24px calc(24px + env(safe-area-inset-bottom, 0px));
+  overflow: auto;
+  animation: slide 0.2s ease;
+}
+.drawer .who {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin: 4px 0 18px;
+}
+.drawer h2 {
+  font-size: 21px;
+  font-weight: 800;
+}
+.dl {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 10px 12px;
+  font-size: 13.5px;
+  margin-bottom: 18px;
+}
+.dl dt {
+  color: var(--dim);
+  font-weight: 600;
+}
+.dl dd {
+  margin: 0;
+  font-weight: 600;
+  word-break: break-word;
+}
+.acts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.acts .pri {
+  grid-column: 1/-1;
+}
+.x {
+  background: none;
+  border: 0;
+  padding: 6px;
+  color: var(--muted);
+  border-radius: 8px;
+}
+.x:hover {
+  background: var(--glass);
+}
+.x svg {
+  width: 20px;
+  height: 20px;
+}
+#toastRoot {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+  z-index: 80;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  padding: 0 16px;
+}
+.toast {
+  background: #fff;
+  color: #141c4a;
+  padding: 11px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 13.5px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  animation: pop 0.18s ease;
+}
+.toast.err {
+  background: var(--red);
+  color: #fff;
+}
+.banner {
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: rgba(203, 51, 72, 0.18);
+  border: 1px solid rgba(255, 139, 155, 0.35);
+  margin-bottom: 20px;
+}
+.loading {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--muted);
+}
+body.locked .app,
+body.locked .tabbar {
+  display: none;
+}
+#login {
+  display: none;
+  min-height: 100vh;
+  min-height: 100dvh;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 18px;
+}
+body.locked #login {
+  display: flex;
+}
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 34px 30px;
+}
+.login-card .brand {
+  margin: 0 0 26px;
+  padding: 0;
+}
+.login-card h1 {
+  font-size: 22px;
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+.login-card p.sub {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.login-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.login-card .btn {
+  width: 100%;
+  padding: 12px 16px;
+}
+.login-err {
+  min-height: 18px;
+  font-size: 12.5px;
+  color: var(--red-t);
+  font-weight: 600;
+}
+.login-link {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12.5px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px;
+  align-self: center;
+}
+.login-link:hover {
+  color: var(--text);
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+@keyframes slide {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* responsive */
+@media (max-width: 1060px) {
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+  .stu {
+    grid-template-columns: 44px minmax(0, 1fr) 60px 110px 20px;
+  }
+  .stu .sch {
+    display: none;
+  }
+  .fin {
+    grid-template-columns: minmax(0, 1.4fr) 1fr 100px 150px;
+  }
+  .fin .vc {
+    display: none;
+  }
+}
+@media (max-width: 860px) {
+  #toastRoot {
+    bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  }
+  .app {
+    grid-template-columns: 1fr;
+  }
+  .side {
+    display: none;
+  }
+  main {
+    padding: 22px 16px calc(100px + env(safe-area-inset-bottom, 0px));
+  }
+  .tabbar {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    background: rgba(12, 19, 58, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--line);
+    padding: 8px 6px calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+  .tabbar a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: var(--dim);
+    text-decoration: none;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 4px 0;
+    border-radius: 10px;
+  }
+  .tabbar a.on {
+    color: var(--yel);
+  }
+  .page-head h1,
+  .hello h1 {
+    font-size: 26px;
+  }
+  .fg {
+    grid-template-columns: 1fr;
+  }
+  .stats,
+  .stats.dash {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .stats.dash .hl {
+    grid-row: auto;
+    grid-column: 1/-1;
+  }
+  .stats.dash .hl .v {
+    font-size: 40px;
+  }
+  .stat {
+    padding: 14px;
+  }
+  .stat .v {
+    font-size: 22px;
+  }
+  .sec {
+    padding: 18px 16px;
+  }
+  .stu {
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    padding: 13px 14px;
+  }
+  .stu .lvlc,
+  .stu .chev {
+    display: none;
+  }
+  .fin {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 10px;
+    padding: 14px;
+  }
+  .fin.hd {
+    display: none;
+  }
+  .fin .vl {
+    text-align: right;
+  }
+  .fin .vc {
+    display: block;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .fin .act {
+    grid-column: 1/-1;
+    justify-content: flex-start;
+  }
+  .cal-scroll {
+    max-height: none;
+  }
+  .cal-title {
+    font-size: 18px;
+    width: 100%;
+  }
+  .wk {
+    grid-template-columns: 46px repeat(var(--cols), minmax(104px, 1fr));
+    min-width: calc(46px + var(--cols) * 104px);
+  }
+  .day .wk {
+    grid-template-columns: 46px 1fr;
+    min-width: 0;
+  }
+  .mo-c {
+    min-height: 70px;
+    padding: 5px;
+  }
+  .mo-c .pill {
+    font-size: 0;
+    height: 6px;
+    padding: 0;
+    border-left-width: 0;
+    border-radius: 3px;
+  }
+  .mo-c .more {
+    font-size: 10px;
+  }
+  .prof-head {
+    padding: 20px;
+  }
+  .track {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .modal {
+    border-radius: 22px 22px 0 0;
+    max-height: 92vh;
+    align-self: flex-end;
+  }
+  .overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .drawer {
+    top: auto;
+    left: 0;
+    width: 100%;
+    max-height: 88vh;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 22px 22px 0 0;
+    animation: up 0.2s ease;
+  }
+  .lesson {
+    grid-template-columns: 64px 1fr;
+  }
+  .lesson .bdg {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+@keyframes up {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   PORTAL DO ALUNO
+   Mesmos tokens e componentes do painel; abaixo só o que é exclusivo do portal.
+   ============================================================ */
+.ptop {
+  display: none;
+}
+.nav-out {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 0;
+  background: none;
+  color: var(--dim);
+  font: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+.nav-out svg {
+  width: 20px;
+  height: 20px;
+}
+.nav-out:hover {
+  color: var(--text);
+  background: var(--glass);
+}
+.login-tip {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: var(--dim);
+  text-align: center;
+}
+#login [hidden] {
+  display: none !important;
+}
+#avisoA {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+#avisoA .btn {
+  flex: 1;
+}
+/* próxima aula */
+.pa {
+  position: relative;
+  overflow: hidden;
+  padding: 26px 28px 24px;
+  margin-bottom: 22px;
+}
+.pa::before {
+  content: "";
+  position: absolute;
+  inset: auto -80px -120px auto;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 222, 89, 0.14), transparent 65%);
+  pointer-events: none;
+}
+.pa-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.pa-lbl {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--yel);
+}
+.pa-main {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.pa-num {
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.pa-when {
+  margin-top: 10px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 14px;
+}
+.pa-when b {
+  display: block;
+  color: var(--text);
+  font-size: 19px;
+}
+.pa-hora {
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--yel);
+  letter-spacing: -0.02em;
+}
+.pa-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--muted);
+}
+.pa-count svg,
+.pa-notif svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.pa-acts {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 18px;
+  position: relative;
+}
+.btn.lg {
+  padding: 14px 24px;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.btn svg {
+  width: 18px;
+  height: 18px;
+}
+.pa.logo {
+  border-color: rgba(255, 222, 89, 0.6);
+  background: linear-gradient(160deg, rgba(255, 222, 89, 0.2), rgba(255, 222, 89, 0.05));
+}
+.pa.agora {
+  border-color: rgba(95, 212, 154, 0.55);
+  background: linear-gradient(160deg, rgba(95, 212, 154, 0.2), rgba(95, 212, 154, 0.05));
+}
+.pa.logo .pa-count {
+  color: var(--yel);
+  font-size: 17px;
+}
+.pa.agora .pa-count {
+  color: var(--green);
+  font-size: 17px;
+}
+.pa.logo .btn.lg,
+.pa.agora .btn.lg {
+  animation: pa-pulse 1.8s ease-out infinite;
+}
+@keyframes pa-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 222, 89, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(255, 222, 89, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 222, 89, 0);
+  }
+}
+.pa-notif {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line2);
+  font-size: 13px;
+  color: var(--muted);
+  position: relative;
+}
+.stats.p3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 22px;
+}
+.stat.link {
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+.stat.link:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.stat .s .bdg {
+  margin-right: 4px;
+}
+/* linhas de conteúdo e financeiro */
+.row.mrow {
+  grid-template-columns: 70px minmax(0, 1fr) auto;
+}
+.row.mrow .n {
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.row.frow {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+.row .fv {
+  text-align: right;
+  font-weight: 700;
+}
+.row .fv small {
+  display: block;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--dim);
+}
+.lesson .has-mat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--yel);
+  font-weight: 600;
+}
+.lesson .has-mat svg {
+  width: 15px;
+  height: 15px;
+}
+.mats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 14px;
+}
+.mat {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mat .mh {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--dim);
+  font-weight: 600;
+}
+.mat .mh b {
+  color: var(--yel);
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.mat h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.mat .mt {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.mat .ml {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.mat-more {
+  background: none;
+  border: 0;
+  padding: 2px 0 0;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: center;
+}
+.fin-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 26px 28px;
+  margin-bottom: 18px;
+}
+.fin-hero .l {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--yel);
+}
+.fin-hero .v {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.fin-hero .s {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.fin-hero .fh-r {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.kv1 small {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dim);
+  margin-bottom: 4px;
+}
+.kv1 b {
+  font-size: 18px;
+}
+.fin-hero.atrasado {
+  border-color: rgba(255, 139, 155, 0.5);
+  background: linear-gradient(160deg, rgba(203, 51, 72, 0.22), rgba(203, 51, 72, 0.06));
+}
+.fin-hero.pago,
+.fin-hero.ok {
+  border-color: rgba(95, 212, 154, 0.4);
+}
+.sub-h {
+  margin: 22px 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+}
+@media (max-width: 1060px) {
+  .stats.p3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 860px) {
+  .ptop {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 25;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(12, 19, 58, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line2);
+  }
+  .ptop .brand {
+    padding: 0;
+  }
+  .ptop .brand b {
+    font-size: 18px;
+  }
+  .ptop .brand span {
+    font-size: 11.5px;
+  }
+  .ptop-av {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 14px;
+    color: #141c4a;
+    background: var(--yel);
+    text-decoration: none;
+    border: 2px solid transparent;
+  }
+  .ptop-av.on {
+    border-color: #fff;
+  }
+  body.locked .ptop {
+    display: none;
+  }
+  .pa {
+    padding: 22px 20px 20px;
+  }
+  .pa-num,
+  .pa-hora {
+    font-size: 36px;
+  }
+  .pa-acts .btn {
+    flex: 1 1 100%;
+  }
+  .stats.p3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .stats.p3 .stat.link {
+    grid-column: 1/-1;
+  }
+  .fin-hero {
+    padding: 22px 20px;
+  }
+  .fin-hero .v {
+    font-size: 32px;
+  }
+  .row.frow {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .row.frow .bdg {
+    grid-column: 1/-1;
+    justify-self: start;
+  }
+}
+</style>
+  </head>
+  <body class="locked">
+    <div class="bg"></div>
+    <header class="ptop">
+      <div class="brand">
+        <b>Teacher Tiago<i>.</i></b
+        ><span>Área do aluno</span>
+      </div>
+      <a class="ptop-av" id="topAv" href="#/perfil" aria-label="Meu perfil"></a>
+    </header>
+    <div class="app">
+      <aside class="side">
+        <div class="brand">
+          <b>Teacher Tiago<i>.</i></b
+          ><span>Área do aluno</span>
+        </div>
+        <nav class="nav" id="nav"></nav>
+        <div class="side-foot">Aulas de inglês 100% online</div>
+      </aside>
+      <main id="main"><div class="loading">Carregando…</div></main>
+    </div>
+    <nav class="tabbar" id="tabbar"></nav>
+    <div id="layer"></div>
+    <div id="toastRoot"></div>
+
+    <section id="login">
+      <!-- Login -->
+      <div class="glass login-card" id="cardLogin">
+        <div class="brand">
+          <b>Teacher Tiago<i>.</i></b
+          ><span>Área do aluno</span>
+        </div>
+        <h1>Área do Aluno</h1>
+        <p class="sub">Entre com seu usuário e senha para ver suas aulas, materiais e mensalidades.</p>
+        <form id="loginForm" novalidate>
+          <label class="f"
+            >Nome / usuário<input
+              name="usuario"
+              autocomplete="username"
+              autocapitalize="words"
+              spellcheck="false"
+              required
+          /></label>
+          <label class="f"
+            >Senha<input name="senha" type="password" autocomplete="current-password" required
+          /></label>
+          <div class="login-err" id="loginErr" role="alert"></div>
+          <button class="btn pri" type="submit" id="loginBtn">Entrar</button>
+          <p class="login-tip">Primeiro acesso? A senha é o seu WhatsApp, só números.</p>
+        </form>
+      </div>
+      <!-- Primeiro acesso -->
+      <div class="glass login-card" id="cardSenha" hidden>
+        <div class="brand">
+          <b>Teacher Tiago<i>.</i></b
+          ><span>Área do aluno</span>
+        </div>
+        <h1>Crie sua senha</h1>
+        <p class="sub">Este é o seu primeiro acesso. Escolha uma senha nova para proteger sua conta.</p>
+        <form id="senhaForm" novalidate>
+          <label class="f"
+            >Nova senha<input name="nova" type="password" autocomplete="new-password" minlength="6" required
+          /></label>
+          <label class="f"
+            >Confirmar nova senha<input
+              name="conf"
+              type="password"
+              autocomplete="new-password"
+              minlength="6"
+              required
+          /></label>
+          <div class="login-err" id="senhaErr" role="alert"></div>
+          <button class="btn pri" type="submit">Salvar e entrar</button>
+          <button class="login-link" type="button" data-act="sair">Sair</button>
+        </form>
+      </div>
+      <!-- Avisos -->
+      <div class="glass login-card" id="cardAviso" hidden>
+        <div class="brand">
+          <b>Teacher Tiago<i>.</i></b
+          ><span>Área do aluno</span>
+        </div>
+        <h1 id="avisoT"></h1>
+        <p class="sub" id="avisoP"></p>
+        <div id="avisoA"></div>
+      </div>
+    </section>
+
+    <!-- Scripts (a ordem importa) -->
+    <script>
+/* ============================== js/config.js ============================== */
+"use strict";
+/* ============================================================
+   CONFIGURAÇÃO DA PLATAFORMA
+
+   Com o bloco "firebase" VAZIO, a plataforma funciona em
+   MODO LOCAL: os dados ficam salvos no navegador (localStorage),
+   sem login. Bom para testar ou para uso em um único aparelho.
+
+   Com o bloco "firebase" PREENCHIDO, ela passa para o
+   MODO NUVEM: login com e-mail e senha, e os dados ficam no
+   Firestore, acessíveis de qualquer aparelho.
+   Onde pegar os valores: Console do Firebase → Configurações
+   do projeto → Seus apps → Configuração do SDK. (Veja o README.)
+   ============================================================ */
+const APP_CONFIG = {
+  firebase: {
+    apiKey: "",
+    authDomain: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: "",
+  },
+  firebaseVersion: "10.12.2",
+};
+
+
+/* ============================== js/core/helpers.js ============================== */
+"use strict";
+/* Funções utilitárias, formatação de datas/valores, constantes e ícones. */
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) =>
+  String(s ?? "").replace(
+    /[&<>"']/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+  );
+const pad = (n) => String(n).padStart(2, "0");
+const ymd = (d) => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+const parse = (s) => {
+  const [y, m, d] = String(s).split("-").map(Number);
+  return new Date(y, (m || 1) - 1, d || 1);
+};
+const addDays = (d, n) => {
+  const x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  x.setDate(x.getDate() + n);
+  return x;
+};
+const today = () => ymd(new Date());
+const monthKey = (d) => d.getFullYear() + "-" + pad(d.getMonth() + 1);
+const addMonths = (mk, n) => {
+  const [y, m] = mk.split("-").map(Number);
+  const d = new Date(y, m - 1 + n, 1);
+  return monthKey(d);
+};
+const toMin = (h) => {
+  const [a, b] = String(h || "0:0")
+    .split(":")
+    .map(Number);
+  return a * 60 + (b || 0);
+};
+const fromMin = (m) => pad(Math.floor(m / 60) % 24) + ":" + pad(m % 60);
+const startOfWeek = (d) => {
+  const x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const w = (x.getDay() + 6) % 7;
+  x.setDate(x.getDate() - w);
+  return x;
+};
+const DOW = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+const DOWL = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+const MES = [
+  "janeiro",
+  "fevereiro",
+  "março",
+  "abril",
+  "maio",
+  "junho",
+  "julho",
+  "agosto",
+  "setembro",
+  "outubro",
+  "novembro",
+  "dezembro",
+];
+const MESC = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+const NIVEIS = ["A1", "A2", "B1", "B2", "C1", "C2"];
+const NIVEL_NOME = {
+  A1: "Iniciante",
+  A2: "Básico",
+  B1: "Intermediário",
+  B2: "Intermediário superior",
+  C1: "Avançado",
+  C2: "Proficiente",
+};
+const ST_AULA = {
+  agendada: "Agendada",
+  realizada: "Realizada",
+  remarcada: "Remarcada",
+  cancelada: "Cancelada",
+};
+const ST_PAG = { pago: "Pago", pendente: "Pendente", atrasado: "Atrasado" };
+const ST_AL = { ativo: "Ativo", pausado: "Pausado", encerrado: "Encerrado" };
+const fmtBR = (s) => {
+  if (!s) return "—";
+  const [y, m, d] = s.split("-");
+  return d + "/" + m + "/" + y;
+};
+const fmtDM = (s) => {
+  const [y, m, d] = s.split("-");
+  return d + "/" + m;
+};
+const fmtLong = (s) => {
+  const d = parse(s);
+  return DOWL[d.getDay()] + ", " + d.getDate() + " de " + MES[d.getMonth()];
+};
+const fmtMes = (mk) => {
+  const [y, m] = mk.split("-").map(Number);
+  return MES[m - 1].replace(/^./, (c) => c.toUpperCase()) + "/" + y;
+};
+const money = (v) =>
+  Number(v || 0).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: Number(v || 0) % 1 ? 2 : 0,
+    maximumFractionDigits: 2,
+  });
+const plural = (n, a, b) => n + " " + (n === 1 ? a : b);
+const initials = (n) =>
+  String(n || "?")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0].toUpperCase())
+    .join("") || "?";
+const first = (n) =>
+  String(n || "")
+    .trim()
+    .split(/\s+/)[0] || "";
+const daysInMonth = (mk) => {
+  const [y, m] = mk.split("-").map(Number);
+  return new Date(y, m, 0).getDate();
+};
+const I = {
+  dash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5" rx="2"/><rect x="13.5" y="11" width="7.5" height="10" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></svg>',
+  users:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.4 3.2-5.5 6.5-5.5s5.9 2.1 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c1.9.7 3.2 2.5 3.5 5.2"/></svg>',
+  cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M7.5 13.5h3v3h-3z"/></svg>',
+  fin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="14" rx="3"/><path d="M2.5 10h19"/><path d="M16 15h2.5"/></svg>',
+  cfg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  l: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+  r: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
+  x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  search:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
+};
+
+/* ---------- links e Portal do Aluno ---------- */
+function safeUrl(u) {
+  u = String(u || "").trim();
+  if (!u) return "";
+  if (!/^https?:\/\//i.test(u)) u = "https://" + u;
+  return u;
+}
+const digitos = (s) => String(s || "").replace(/\D/g, "");
+/* O login do aluno é o nome de usuário. Por baixo, o Firebase usa um
+   e-mail interno gerado a partir dele (nenhum e-mail é enviado). */
+const PORTAL_DOMINIO = "alunos.oteachertiago.app";
+function usuarioParaEmail(usuario) {
+  const slug = String(usuario || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ".")
+    .replace(/^\.+|\.+$/g, "");
+  return slug ? slug + "@" + PORTAL_DOMINIO : "";
+}
+const durTxt = (m) => {
+  m = Number(m) || 0;
+  const h = Math.floor(m / 60),
+    r = m % 60;
+  return h ? h + "h" + (r ? pad(r) : "") : r + " min";
+};
+
+
+/* ============================== js/core/state.js ============================== */
+"use strict";
+/* Estado global (dados + interface) e acesso ao banco de dados. */
+
+/* ---------- state ---------- */
+const DEFAULT_CONFIG = {
+  nome: "Tiago",
+  horaIni: 7,
+  horaFim: 22,
+  domingo: false,
+  alertaDias: 3,
+  duracaoPadrao: 60,
+  vencimentoPadrao: 5,
+  planos: { 1: 200, 2: 250, 3: 300 },
+};
+const S = {
+  alunos: {},
+  aulas: {},
+  pags: {},
+  config: { ...DEFAULT_CONFIG },
+  ready: { alunos: 0, aulas: 0, pags: 0, config: 0 },
+  db: null,
+  noDb: false,
+  aulasBy: {},
+  pagsBy: {},
+};
+const UI = {
+  route: "dashboard",
+  id: null,
+  tab: "geral",
+  cal: { mode: window.innerWidth < 700 ? "dia" : "semana", date: today() },
+  al: { q: "", status: "todos", nivel: "", dia: "", pag: "" },
+  fin: { mes: monthKey(new Date()), filtro: "todos" },
+  ev: null,
+};
+const cfg = () => ({
+  ...DEFAULT_CONFIG,
+  ...S.config,
+  planos: { ...DEFAULT_CONFIG.planos, ...(S.config.planos || {}) },
+});
+
+/* ---------- data access ---------- */
+/* Campos do aluno que só o professor vê. Ficam na coleção "alunosPriv",
+   que o aluno não consegue ler (ver firestore.rules). O resto do cadastro
+   fica em "alunos" e aparece no Portal do Aluno. */
+const PRIV_FIELDS = ["dificuldades", "pontos", "conteudos", "observacoes"];
+function splitAluno(data) {
+  const pub = {},
+    priv = {};
+  for (const [k, v] of Object.entries(data || {})) (PRIV_FIELDS.includes(k) ? priv : pub)[k] = v;
+  return [pub, priv];
+}
+function alunoRef(id) {
+  const c = S.db.collection("alunos");
+  const pubRef = id ? c.doc(id) : c.doc();
+  const privRef = S.db.collection("alunosPriv").doc(pubRef.id);
+  return {
+    id: pubRef.id,
+    async set(data) {
+      const [p, q] = splitAluno(data);
+      await pubRef.set(p);
+      await privRef.set(q);
+    },
+    async update(data) {
+      const [p, q] = splitAluno(data);
+      if (Object.keys(p).length) await pubRef.update(p);
+      if (Object.keys(q).length) await privRef.set(q, { merge: true });
+    },
+    async delete() {
+      await privRef.delete();
+      await pubRef.delete();
+    },
+  };
+}
+const coll = (n) => (n === "alunos" ? { doc: (id) => alunoRef(id) } : S.db.collection(n));
+async function W(fn, okMsg) {
+  if (!S.db) {
+    toast("Sem conexão com o banco de dados.", true);
+    return false;
+  }
+  try {
+    await fn();
+    if (okMsg) toast(okMsg);
+    return true;
+  } catch (e) {
+    console.error(e);
+    toast(
+      e && e.code === "quota_exceeded"
+        ? "Limite de armazenamento atingido. Exclua registros antigos."
+        : e && (e.code === "invalid_argument" || e.code === "permission-denied")
+          ? "Você não tem permissão para editar estes dados."
+          : "Não foi possível salvar. Tente novamente.",
+      true,
+    );
+    return false;
+  }
+}
+function reindex() {
+  const by = {};
+  for (const [id, v] of Object.entries(S.aulas)) {
+    (by[v.alunoId] = by[v.alunoId] || []).push({ id, v });
+  }
+  S.aulasBy = by;
+  const pb = {};
+  for (const [id, v] of Object.entries(S.pags)) {
+    (pb[v.alunoId] = pb[v.alunoId] || {})[v.mes] = { id, ...v };
+  }
+  S.pagsBy = pb;
+}
+
+
+/* ============================== js/core/lessons.js ============================== */
+"use strict";
+/* Motor de aulas: gera as aulas recorrentes a partir da agenda de cada aluno. */
+
+/* ---------- lessons engine ---------- */
+function genStart(a) {
+  let g = a.ancora || a.inicio || today();
+  if (a.inicio && a.inicio > g) g = a.inicio;
+  return g;
+}
+function eventosAluno(aid, a, from, to) {
+  const docs = S.aulasBy[aid] || [];
+  const keys = new Set(docs.map((d) => d.id));
+  const fixed = [],
+    pend = [];
+  const ag = a.agenda || {};
+  const dur = Number(a.duracao) || cfg().duracaoPadrao;
+  if (a.status === "ativo" && Object.keys(ag).length) {
+    const gs = genStart(a);
+    if (to >= gs) {
+      let d = parse(gs);
+      const end = parse(to);
+      while (d <= end) {
+        const k = String(d.getDay());
+        if (ag[k]) {
+          const ds = ymd(d);
+          const key = aid + "_" + ds;
+          if (!keys.has(key))
+            pend.push({
+              key,
+              aid,
+              data: ds,
+              hora: ag[k],
+              orig: ds,
+              duracao: dur,
+              status: "agendada",
+              doc: null,
+            });
+        }
+        d = addDays(d, 1);
+      }
+    }
+  }
+  for (const { id, v } of docs) {
+    const ev = {
+      key: id,
+      aid,
+      data: v.novaData || v.data,
+      hora: v.novaHora || v.hora,
+      orig: v.data,
+      duracao: Number(v.duracao) || dur,
+      status: v.status || "agendada",
+      doc: v,
+    };
+    if ((ev.status === "agendada" || ev.status === "remarcada") && a.status === "ativo") pend.push(ev);
+    else {
+      ev.numero = v.numero;
+      fixed.push(ev);
+    }
+  }
+  pend.sort((x, y) => (x.data + x.hora).localeCompare(y.data + y.hora));
+  const base = Number(a.aulaAtual) || 1;
+  pend.forEach((e, i) => {
+    e.numero = base + i;
+    e.pending = true;
+  });
+  return fixed
+    .concat(pend)
+    .filter((e) => e.data >= from && e.data <= to)
+    .map((e) => ({ ...e, aluno: a }));
+}
+function eventos(from, to, aid) {
+  let out = [];
+  for (const [id, a] of Object.entries(S.alunos)) {
+    if (aid && id !== aid) continue;
+    out = out.concat(eventosAluno(id, a, from, to));
+  }
+  return out.sort((x, y) => (x.data + x.hora).localeCompare(y.data + y.hora));
+}
+const evEnd = (e) => parse(e.data).getTime() + (toMin(e.hora) + e.duracao) * 60000;
+const evStart = (e) => parse(e.data).getTime() + toMin(e.hora) * 60000;
+function pendentesRegistro() {
+  const t = today();
+  const now = Date.now();
+  const out = [];
+  for (const [id, a] of Object.entries(S.alunos)) {
+    if (a.status !== "ativo") continue;
+    eventosAluno(id, a, "0000-01-01", t).forEach((e) => {
+      if ((e.status === "agendada" || e.status === "remarcada") && evEnd(e) < now) out.push(e);
+    });
+  }
+  return out;
+}
+
+
+/* ============================== js/core/payments.js ============================== */
+"use strict";
+/* Motor de pagamentos: mensalidades pós-pagas, vencimentos e status. */
+
+/* ---------- payments engine ---------- */
+function vencDe(a, mes) {
+  const d = Math.min(Number(a.vencimentoDia) || cfg().vencimentoPadrao, daysInMonth(mes));
+  return mes + "-" + pad(d);
+}
+function pagInfo(aid, a, mes) {
+  const doc = (S.pagsBy[aid] || {})[mes];
+  const venc = (doc && doc.vencimento) || vencDe(a, mes);
+  const valor = doc && doc.valor != null ? Number(doc.valor) : Number(a.valorMensal) || 0;
+  const status = doc && doc.status === "pago" ? "pago" : today() > venc ? "atrasado" : "pendente";
+  return {
+    id: aid + "_" + mes,
+    aid,
+    a,
+    mes,
+    doc,
+    venc,
+    valor,
+    status,
+    pagoEm: doc && doc.pagoEm,
+    forma: (doc && doc.forma) || a.formaPagamento || "",
+    obs: (doc && doc.obs) || "",
+  };
+}
+function mesesAluno(aid, a) {
+  const set = new Set(Object.keys(S.pagsBy[aid] || {}));
+  if (a.status === "ativo") {
+    let m = a.pagDesde || primeiraCobranca(a);
+    const fim = addMonths(monthKey(new Date()), 1);
+    let guard = 0;
+    while (m <= fim && guard++ < 240) {
+      set.add(m);
+      m = addMonths(m, 1);
+    }
+  }
+  return [...set].sort();
+}
+function primeiraCobranca(a) {
+  const cur = monthKey(new Date());
+  let m = addMonths((a.inicio || a.criadoEm || today()).slice(0, 7), 1);
+  if (m < cur) m = cur;
+  if (vencDe(a, m) < today()) m = addMonths(m, 1);
+  return m;
+}
+const refTxt = (mes) => "aulas de " + MES[Number(addMonths(mes, -1).slice(5)) - 1];
+function cobrancaAtual(aid, a) {
+  const ms = mesesAluno(aid, a).map((m) => pagInfo(aid, a, m));
+  return (
+    ms.find((p) => p.status === "atrasado") ||
+    ms.find((p) => p.status === "pendente" && p.mes >= monthKey(new Date())) ||
+    null
+  );
+}
+function pagamentosAluno(aid, a) {
+  return mesesAluno(aid, a).map((m) => pagInfo(aid, a, m));
+}
+function pagamentosMes(mes) {
+  const out = [];
+  for (const [aid, a] of Object.entries(S.alunos)) {
+    if (mesesAluno(aid, a).includes(mes)) out.push(pagInfo(aid, a, mes));
+  }
+  return out.sort((x, y) => x.venc.localeCompare(y.venc) || String(x.a.nome).localeCompare(String(y.a.nome)));
+}
+function todosAtrasados() {
+  const out = [];
+  for (const [aid, a] of Object.entries(S.alunos))
+    pagamentosAluno(aid, a).forEach((p) => {
+      if (p.status === "atrasado") out.push(p);
+    });
+  return out;
+}
+
+
+/* ============================== js/ui/components.js ============================== */
+"use strict";
+/* Toast e pequenos componentes reutilizados pelas telas. */
+
+/* ---------- toast ---------- */
+let tt = 0;
+function toast(msg, err) {
+  const r = $("#toastRoot");
+  r.innerHTML = `<div class="toast ${err ? "err" : ""}" role="status">${esc(msg)}</div>`;
+  clearTimeout(tt);
+  tt = setTimeout(() => (r.innerHTML = ""), 2600);
+}
+
+/* ---------- small UI pieces ---------- */
+const bdg = (k, label) => `<span class="bdg ${k}">${esc(label)}</span>`;
+function agendaTxt(a) {
+  const ag = a.agenda || {};
+  const ks = Object.keys(ag)
+    .map(Number)
+    .sort((x, y) => ((x + 6) % 7) - ((y + 6) % 7));
+  if (!ks.length) return "Sem horário definido";
+  const hs = new Set(ks.map((k) => ag[k]));
+  if (hs.size === 1) return ks.map((k) => DOW[k]).join(", ") + " às " + ag[ks[0]];
+  return ks.map((k) => DOW[k] + " " + ag[k]).join(", ");
+}
+const freq = (a) => Object.keys(a.agenda || {}).length;
+const freqTxt = (a) => {
+  const f = freq(a);
+  return f ? f + "x por semana" : "—";
+};
+function incompletos(a) {
+  const f = [];
+  if (!a.email) f.push("e-mail");
+  if (!a.whatsapp) f.push("WhatsApp");
+  if (!Object.keys(a.agenda || {}).length) f.push("dias e horários");
+  if (!Number(a.valorMensal)) f.push("valor mensal");
+  if (!a.nivel) f.push("nível");
+  return f;
+}
+function statusPagAtual(aid, a) {
+  const l = pagamentosAluno(aid, a);
+  if (!l.length) return null;
+  if (l.some((p) => p.status === "atrasado")) return "atrasado";
+  const cm = monthKey(new Date());
+  const cur = l.find((p) => p.mes === cm);
+  if (cur) return cur.status;
+  const nx = l.find((p) => p.mes > cm);
+  return nx ? nx.status : l[l.length - 1].status;
+}
+function whenLabel(ds) {
+  const t = today();
+  if (ds === t) return "Hoje";
+  if (ds === ymd(addDays(new Date(), 1))) return "Amanhã";
+  const d = parse(ds);
+  return DOW[d.getDay()] + " " + fmtDM(ds);
+}
+/* Campo de formulário com rótulo (usado no painel e no portal). */
+function field(label, inner, cls) {
+  return `<label class="f ${cls || ""}">${label}${inner}</label>`;
+}
+
+
+/* ============================== js/views/calendario.js ============================== */
+"use strict";
+/* Tela: calendário (semana, dia e mês) */
+
+/* ---------- CALENDÁRIO ---------- */
+const HOUR = 60;
+/* No Portal do Aluno o calendário mostra só as aulas dele, sem ações de gestão. */
+const isPortal = () => window.PORTAL_MODE === true;
+function calRange() {
+  const c = UI.cal,
+    d = parse(c.date);
+  if (c.mode === "dia") return [c.date, c.date];
+  if (c.mode === "semana") {
+    const s = startOfWeek(d);
+    return [ymd(s), ymd(addDays(s, 6))];
+  }
+  const f = new Date(d.getFullYear(), d.getMonth(), 1);
+  const s = startOfWeek(f);
+  const l = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+  const e = addDays(startOfWeek(l), 6);
+  return [ymd(s), ymd(e)];
+}
+function viewCal() {
+  const c = UI.cal,
+    d = parse(c.date);
+  let title = "";
+  if (c.mode === "dia") title = fmtLong(c.date);
+  else if (c.mode === "semana") {
+    const s = startOfWeek(d),
+      e = addDays(s, cfg().domingo ? 6 : 5);
+    title =
+      s.getMonth() === e.getMonth()
+        ? `${s.getDate()} a ${e.getDate()} de ${MES[e.getMonth()]}`
+        : `${s.getDate()} ${MESC[s.getMonth()]} a ${e.getDate()} ${MESC[e.getMonth()]}`;
+  } else title = MES[d.getMonth()].replace(/^./, (x) => x.toUpperCase()) + " de " + d.getFullYear();
+  const [from, to] = calRange();
+  const evs = eventos(from, to);
+  let body = "";
+  if (c.mode === "mes") body = monthGrid(d, evs);
+  else body = weekGrid(c.mode === "dia" ? [c.date] : weekDays(d), evs, c.mode === "dia");
+  return `
+  <div class="cal-bar">
+    <div class="cal-nav"><span class="cal-title">${esc(title)}</span>
+      <button class="btn icon" data-act="cal-prev" aria-label="Anterior">${I.l}</button>
+      <button class="btn" data-act="cal-today">Hoje</button>
+      <button class="btn icon" data-act="cal-next" aria-label="Próximo">${I.r}</button>
+      <input type="date" class="dateinp" id="calGo" value="${c.date}" aria-label="Ir para data">
+    </div>
+    <div class="cal-nav"><div class="seg" role="tablist">${[
+      ["dia", "Dia"],
+      ["semana", "Semana"],
+      ["mes", "Mês"],
+    ]
+      .map(
+        ([k, l]) =>
+          `<button class="${c.mode === k ? "on" : ""}" data-act="cal-mode" data-v="${k}">${l}</button>`,
+      )
+      .join("")}</div>
+      ${isPortal() ? "" : `<button class="btn pri" data-act="nova-aula">${I.plus}Aula avulsa</button>`}</div>
+  </div>
+  <section class="glass cal ${c.mode === "dia" ? "day" : ""}">${body}</section>
+  <div class="legend"><span><i style="background:var(--info)"></i>Agendada</span><span><i style="background:var(--green)"></i>Realizada</span><span><i style="background:var(--yel)"></i>Remarcada</span><span><i style="background:var(--red)"></i>Cancelada</span>${isPortal() ? "" : '<span class="dim">Ponto amarelo: aula passada sem registro</span>'}</div>`;
+}
+function weekDays(d) {
+  const s = startOfWeek(d);
+  const n = cfg().domingo ? 7 : 6;
+  return Array.from({ length: n }, (_, i) => ymd(addDays(s, i)));
+}
+function layoutDay(list) {
+  const items = list
+    .map((e) => ({ e, s: toMin(e.hora), f: toMin(e.hora) + e.duracao }))
+    .sort((a, b) => a.s - b.s || b.f - a.f);
+  let cluster = [],
+    end = -1;
+  const out = [];
+  const flush = () => {
+    const lanes = [];
+    cluster.forEach((it) => {
+      let li = lanes.findIndex((x) => x <= it.s);
+      if (li < 0) {
+        li = lanes.length;
+        lanes.push(0);
+      }
+      lanes[li] = it.f;
+      it.lane = li;
+    });
+    cluster.forEach((it) => {
+      it.n = lanes.length;
+      out.push(it);
+    });
+    cluster = [];
+  };
+  items.forEach((it) => {
+    if (it.s >= end && cluster.length) flush();
+    cluster.push(it);
+    end = Math.max(end, it.f);
+  });
+  if (cluster.length) flush();
+  return out;
+}
+function weekGrid(days, evs, isDay) {
+  const c = cfg();
+  let h0 = Number(c.horaIni),
+    h1 = Number(c.horaFim);
+  evs.forEach((e) => {
+    if (days.includes(e.data)) {
+      h0 = Math.min(h0, Math.floor(toMin(e.hora) / 60));
+      h1 = Math.max(h1, Math.ceil((toMin(e.hora) + e.duracao) / 60));
+    }
+  });
+  h1 = Math.min(24, Math.max(h1, h0 + 1));
+  const H = (h1 - h0) * HOUR;
+  const t = today();
+  const now = new Date();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const nowTs = Date.now();
+  const head =
+    `<div class="wk-h corner"></div>` +
+    days
+      .map((ds) => {
+        const d = parse(ds);
+        return `<div class="wk-h ${ds === t ? "today" : ""}"><button data-act="cal-day" data-date="${ds}"><small>${DOW[d.getDay()]}</small><b>${d.getDate()}</b></button></div>`;
+      })
+      .join("");
+  const times = `<div class="times">${Array.from({ length: h1 - h0 }, (_, i) => `<div>${pad(h0 + i)}:00</div>`).join("")}</div>`;
+  const cols = days
+    .map((ds) => {
+      const dl = layoutDay(evs.filter((e) => e.data === ds));
+      const blocks = dl
+        .map((it) => {
+          const e = it.e;
+          const top = ((it.s - h0 * 60) / 60) * HOUR;
+          const hgt = Math.max(26, (e.duracao / 60) * HOUR - 3);
+          const w = 100 / it.n;
+          const pend = !isPortal() && e.pending && evEnd(e) < nowTs;
+          const lbl = e.status === "cancelada" ? "Cancelada" : "Aula " + (e.numero || "—");
+          return `<button class="ev ${e.status}${pend ? " pend" : ""}" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}" style="top:${top + 1}px;height:${hgt}px;left:calc(${w * it.lane}% + 3px);width:calc(${w}% - 6px)" title="${esc(isPortal() ? (e.status === "cancelada" ? "Aula cancelada" : "Aula " + (e.numero || "")) : e.aluno.nome)} ${e.hora}">
+        ${
+          isPortal()
+            ? `<b>${lbl}</b><span>${e.hora}${e.status !== "agendada" ? " — " + ST_AULA[e.status] : ""}</span>${isDay && hgt > 50 ? `<span>${esc(durTxt(e.duracao))}${e.doc && e.doc.conteudo ? " — " + esc(e.doc.conteudo) : ""}</span>` : ""}`
+            : `<b>${esc(isDay ? e.aluno.nome : first(e.aluno.nome) + (first(e.aluno.nome) !== e.aluno.nome.trim() ? " " + initials(e.aluno.nome).slice(1) + "." : ""))}</b>
+        <span>${e.hora} — ${lbl}</span>${isDay && hgt > 50 ? `<span>${e.aluno.nivel ? "Nível " + esc(e.aluno.nivel) + " — " : ""}${e.duracao} min${e.status !== "agendada" ? " — " + ST_AULA[e.status] : ""}</span>` : ""}`
+        }</button>`;
+        })
+        .join("");
+      const nl =
+        ds === t && nowMin >= h0 * 60 && nowMin <= h1 * 60
+          ? `<div class="now" style="top:${((nowMin - h0 * 60) / 60) * HOUR}px"></div>`
+          : "";
+      return `<div class="col ${ds === t ? "today" : ""}" data-act="${isPortal() ? "" : "slot"}" data-date="${ds}" data-h0="${h0}" style="height:${H}px">${blocks}${nl}</div>`;
+    })
+    .join("");
+  return `<div class="cal-scroll" id="calScroll"><div class="wk" style="--cols:${days.length}">${head}${times}${cols}</div></div>`;
+}
+function monthGrid(d, evs) {
+  const [from, to] = calRange();
+  const t = today();
+  const cells = [];
+  let x = parse(from);
+  const end = parse(to);
+  while (x <= end) {
+    cells.push(ymd(x));
+    x = addDays(x, 1);
+  }
+  const hd = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
+    .map((n) => `<div class="mo-h">${n}</div>`)
+    .join("");
+  return `<div class="mo">${hd}${cells
+    .map((ds) => {
+      const dd = parse(ds);
+      const l = evs.filter((e) => e.data === ds);
+      return `<div class="mo-c ${dd.getMonth() !== d.getMonth() ? "out" : ""} ${ds === t ? "today" : ""}" data-act="cal-day" data-date="${ds}" role="button" tabindex="0"><span class="d">${dd.getDate()}</span>
+      ${l
+        .slice(0, 3)
+        .map(
+          (e) =>
+            `<button class="pill ${e.status}" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}" title="${esc(isPortal() ? "Aula " + (e.numero || "") : e.aluno.nome)}">${e.hora} ${isPortal() ? (e.status === "cancelada" ? "Cancelada" : "Aula " + esc(e.numero || "")) : esc(first(e.aluno.nome))}</button>`,
+        )
+        .join("")}
+      ${l.length > 3 ? `<span class="more">+${l.length - 3} ${l.length - 3 === 1 ? "aula" : "aulas"}</span>` : ""}</div>`;
+    })
+    .join("")}</div>`;
+}
+function afterCal() {
+  const sc = $("#calScroll");
+  if (!sc || UI.cal.scrolled === UI.cal.mode + UI.cal.date) return;
+  UI.cal.scrolled = UI.cal.mode + UI.cal.date;
+  const ev = sc.querySelector(".ev");
+  const nowEl = sc.querySelector(".now");
+  const target = nowEl || ev;
+  if (target) sc.scrollTop = Math.max(0, parseFloat(target.style.top) - 90);
+}
+
+
+/* ============================== js/ui/layer.js ============================== */
+"use strict";
+/* Modais, gaveta lateral (drawer) e caixas de confirmação. */
+
+/* ---------- LAYER: modal / drawer ---------- */
+let layer = null; // {type:'modal'|'drawer', html fn}
+function openModal(html, cls) {
+  layer = { type: "modal" };
+  $("#layer").innerHTML =
+    `<div class="overlay" data-act="close-bg"><div class="modal ${cls || ""}" role="dialog" aria-modal="true">${html}</div></div>`;
+  const f = $("#layer").querySelector("input:not([type=hidden]):not([type=checkbox]),textarea,select");
+  if (f && window.innerWidth > 860) f.focus();
+}
+function closeLayer() {
+  layer = null;
+  UI.ev = null;
+  $("#layer").innerHTML = "";
+}
+/* Link para entrar na aula: o desta aula, se houver; senão, o link fixo do aluno. */
+const linkDaAula = (e) => (e.doc && e.doc.link) || (e.aluno && e.aluno.link) || "";
+function findEv(key, date) {
+  const aid = key.split("_")[0];
+  const a = S.alunos[aid];
+  if (!a) return null;
+  const doc = S.aulas[key];
+  const d = doc ? doc.novaData || doc.data : date;
+  return eventosAluno(aid, a, d, d).find((e) => e.key === key) || null;
+}
+function openEv(key, date) {
+  UI.ev = { key, date };
+  layer = null;
+  renderLayer();
+}
+
+
+/* ============================== js/ui/cal-actions.js ============================== */
+"use strict";
+/* Navegação do calendário (semana, dia, mês). Usada pelo painel e pelo Portal do Aluno. */
+
+function calAction(act, d) {
+  switch (act) {
+    case "cal-prev":
+    case "cal-next": {
+      const s = act === "cal-prev" ? -1 : 1;
+      const c = UI.cal,
+        x = parse(c.date);
+      c.date = ymd(
+        c.mode === "dia"
+          ? addDays(x, s)
+          : c.mode === "semana"
+            ? addDays(x, 7 * s)
+            : new Date(x.getFullYear(), x.getMonth() + s, 1),
+      );
+      draw();
+      return true;
+    }
+    case "cal-today":
+      UI.cal.date = today();
+      draw();
+      return true;
+    case "cal-mode":
+      UI.cal.mode = d.v;
+      draw();
+      return true;
+    case "cal-day":
+      UI.cal.date = d.date;
+      UI.cal.mode = "dia";
+      if (UI.route !== "calendario") go("#/calendario");
+      else draw();
+      return true;
+  }
+  return false;
+}
+function calKey(e) {
+  if (e.key === "Enter" && e.target.classList && e.target.classList.contains("mo-c")) {
+    UI.cal.date = e.target.dataset.date;
+    UI.cal.mode = "dia";
+    draw();
+  }
+}
+function calChange(t) {
+  if (t.id === "calGo" && t.value) {
+    UI.cal.date = t.value;
+    draw();
+    return true;
+  }
+  return false;
+}
+
+
+/* ============================== js/data/firebase-core.js ============================== */
+"use strict";
+/* Firebase: carregamento do SDK e mensagens de erro de login.
+   Usado pelo painel do professor e pelo Portal do Aluno. */
+
+function firebaseConfigurado() {
+  const c = APP_CONFIG.firebase || {};
+  return !!(c.apiKey && c.projectId && c.appId);
+}
+
+function loadScript(src) {
+  return new Promise((res, rej) => {
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = res;
+    s.onerror = () => rej(new Error("Falha ao carregar " + src));
+    document.head.appendChild(s);
+  });
+}
+
+async function carregarFirebase() {
+  const base = "https://www.gstatic.com/firebasejs/" + APP_CONFIG.firebaseVersion + "/";
+  for (const f of ["firebase-app-compat.js", "firebase-auth-compat.js", "firebase-firestore-compat.js"])
+    await loadScript(base + f);
+}
+
+/* Inicializa o app e o banco com as mesmas opções nos dois sites. */
+function iniciarApp() {
+  firebase.initializeApp(APP_CONFIG.firebase);
+  const db = firebase.firestore();
+  try {
+    db.settings({ ignoreUndefinedProperties: true, merge: true });
+  } catch (e) {}
+  try {
+    db.enablePersistence({ synchronizeTabs: true }).catch(() => {});
+  } catch (e) {}
+  const auth = firebase.auth();
+  try {
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+  } catch (e) {}
+  return { db, auth };
+}
+
+function authMsg(e, quem) {
+  const c = (e && e.code) || "";
+  if (/invalid-credential|wrong-password|user-not-found|invalid-login/.test(c))
+    return quem === "aluno" ? "Usuário ou senha incorretos." : "E-mail ou senha incorretos.";
+  if (/invalid-email|missing-email/.test(c))
+    return quem === "aluno" ? "Digite seu usuário." : "Digite um e-mail válido.";
+  if (/missing-password/.test(c)) return "Digite a senha.";
+  if (/too-many-requests/.test(c)) return "Muitas tentativas. Aguarde alguns minutos e tente de novo.";
+  if (/user-disabled/.test(c)) return "Esta conta foi desativada.";
+  if (/weak-password/.test(c)) return "A senha precisa ter pelo menos 6 caracteres.";
+  if (/requires-recent-login/.test(c)) return "Por segurança, saia e entre de novo antes de trocar a senha.";
+  if (/network/.test(c)) return "Sem conexão com a internet.";
+  return "Não foi possível entrar. Tente de novo.";
+}
+
+
+/* ============================== js/portal/render.js ============================== */
+"use strict";
+/* Portal do Aluno: rotas (#/inicio, #/aulas…), menu e desenho da tela. */
+
+let raf = 0,
+  deferred = false;
+/* Redesenha no próximo quadro. Se a aba estiver em segundo plano (o navegador
+   pausa requestAnimationFrame), o setTimeout garante a atualização. */
+function render() {
+  if (raf) return;
+  let t = 0;
+  const run = () => {
+    if (!raf) return;
+    cancelAnimationFrame(raf);
+    clearTimeout(t);
+    raf = 0;
+    const ae = document.activeElement;
+    if (ae && $("#main").contains(ae) && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)) {
+      deferred = true;
+      renderLayer(true);
+      return;
+    }
+    draw();
+  };
+  raf = requestAnimationFrame(run);
+  t = setTimeout(run, 150);
+}
+document.addEventListener("focusout", () => {
+  if (deferred) {
+    deferred = false;
+    setTimeout(render, 50);
+  }
+});
+const PORTAL_VIEWS = {
+  inicio: () => viewInicio(),
+  aulas: () => viewAulas(),
+  calendario: () => viewCal(),
+  conteudos: () => viewConteudos(),
+  financeiro: () => viewFinanceiroAluno(),
+  perfil: () => viewPerfil(),
+};
+function draw() {
+  reindex();
+  drawNav();
+  const m = $("#main");
+  if (S.noDb) {
+    m.innerHTML = noDbView();
+    return;
+  }
+  if (!S.me || !(S.ready.alunos && S.ready.aulas && S.ready.pags)) {
+    m.innerHTML = '<div class="loading">Carregando suas aulas…</div>';
+    return;
+  }
+  m.innerHTML = (PORTAL_VIEWS[UI.route] || PORTAL_VIEWS.inicio)();
+  if (UI.route === "calendario") afterCal();
+  renderLayer(true);
+}
+function drawNav() {
+  const items = [
+    ["inicio", "Início", I.home, "Início"],
+    ["aulas", "Minhas aulas", I.book, "Aulas"],
+    ["calendario", "Calendário", I.cal, "Agenda"],
+    ["conteudos", "Conteúdos", I.folder, "Conteúdos"],
+    ["financeiro", "Financeiro", I.fin, "Financeiro"],
+    ["perfil", "Meu perfil", I.user, "Perfil"],
+  ];
+  const cur = PORTAL_VIEWS[UI.route] ? UI.route : "inicio";
+  $("#nav").innerHTML =
+    items.map(([k, l, ic]) => `<a href="#/${k}" class="${cur === k ? "on" : ""}">${ic}${l}</a>`).join("") +
+    `<button class="nav-out" data-act="sair">${I.out}Sair</button>`;
+  // no celular, o perfil fica no avatar do topo
+  $("#tabbar").innerHTML = items
+    .filter(([k]) => k !== "perfil")
+    .map(([k, , ic, s]) => `<a href="#/${k}" class="${cur === k ? "on" : ""}">${ic}<span>${s}</span></a>`)
+    .join("");
+  const a = meuAluno && S.me ? meuAluno() : null;
+  $("#topAv").textContent = a ? initials(a.nome) : "";
+  $("#topAv").classList.toggle("on", cur === "perfil");
+}
+function route() {
+  const p = (location.hash || "#/inicio").slice(2).split("/");
+  UI.route = p[0] || "inicio";
+  UI.ev = null;
+  closeLayer();
+  draw();
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+const go = (h) => {
+  if (location.hash === h) route();
+  else location.hash = h;
+};
+function noDbView() {
+  return `<div class="page-head"><div><h1>${esc(S.noDbTitulo || "Não foi possível abrir seus dados")}</h1><p>${esc(S.noDbMsg || "Verifique sua conexão com a internet e tente de novo.")}</p></div></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" type="button" onclick="location.reload()">Tentar de novo</button><button class="btn" type="button" data-act="sair">Sair</button></div>`;
+}
+
+
+/* ============================== js/portal/views.js ============================== */
+"use strict";
+/* Portal do Aluno: telas (Início, Minhas aulas, Conteúdos, Financeiro, Meu perfil).
+   O Calendário usa o mesmo componente do painel (js/views/calendario.js). */
+
+Object.assign(I, {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9v11.5h13V9"/><path d="M10 20.5v-6h4v6"/></svg>',
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M8.5 7.5h7M8.5 11h5"/></svg>',
+  folder:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h4l2 2.5h7A2.5 2.5 0 0 1 21 10v7.5a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></svg>',
+  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4 4-6.5 8-6.5s7.2 2.5 8 6.5"/></svg>',
+  out: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h3.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H15"/><path d="M10 16l-4-4 4-4M6 12h10"/></svg>',
+  video:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="13" height="12" rx="2.5"/><path d="m15.5 10.5 6-3.5v10l-6-3.5"/></svg>',
+  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>',
+  doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>',
+});
+
+/* ---------- dados do aluno logado ---------- */
+const meuId = () => S.me && S.me.alunoId;
+const meuAluno = () => S.alunos[meuId()];
+const diaSemana = (ds) => {
+  const d = parse(ds).getDay();
+  return DOWL[d] + (d >= 1 && d <= 5 ? "-feira" : "");
+};
+function proximasAulas(n) {
+  const now = Date.now();
+  return eventos(today(), ymd(addDays(new Date(), 90)), meuId())
+    .filter((e) => (e.status === "agendada" || e.status === "remarcada") && evEnd(e) >= now)
+    .slice(0, n);
+}
+/* Todas as aulas com documento (realizadas, remarcadas, com material…), com o número correto. */
+function aulasComRegistro() {
+  const id = meuId(),
+    a = meuAluno();
+  const fim = ymd(addDays(new Date(), 400));
+  const all = eventosAluno(id, a, "0000-01-01", fim);
+  return all.filter((e) => e.doc);
+}
+const tituloAula = (e) => (e.status === "cancelada" ? "Aula cancelada" : "Aula " + (e.numero || "—"));
+
+/* ---------- próxima aula: contagem regressiva ---------- */
+function estadoAula(e) {
+  const now = Date.now();
+  if (now >= evStart(e)) return "agora";
+  if (evStart(e) - now <= 10 * 60000) return "logo";
+  return "breve";
+}
+function contagem(e) {
+  const ms = evStart(e) - Date.now();
+  if (ms <= 0) return "Sua aula está acontecendo agora";
+  const min = Math.ceil(ms / 60000);
+  if (min <= 10) return `Sua aula começa em ${min} ${min === 1 ? "minuto" : "minutos"}!`;
+  const d = Math.floor(min / 1440),
+    h = Math.floor((min % 1440) / 60),
+    m = min % 60;
+  if (d) return `Sua aula começa em ${d} ${d === 1 ? "dia" : "dias"}${h ? ` e ${h}h` : ""}`;
+  return `Sua aula começa em ${h ? h + "h" : ""}${h && m ? " " : ""}${m ? m + "min" : ""}`;
+}
+function botaoEntrar(e, cls) {
+  const l = linkDaAula(e);
+  return l
+    ? `<a class="btn pri ${cls || ""}" href="${esc(safeUrl(l))}" target="_blank" rel="noopener" data-entrar>${I.video}Entrar na aula</a>`
+    : "";
+}
+function heroAula(e) {
+  if (!e)
+    return `<section class="glass pa"><div class="pa-top"><span class="pa-lbl">Próxima aula</span></div>
+      <div class="empty" style="padding:18px 0 6px"><b>Nenhuma aula agendada</b>Quando o professor marcar suas próximas aulas, elas aparecem aqui.</div></section>`;
+  const st = estadoAula(e);
+  const l = linkDaAula(e);
+  return `<section class="glass pa ${st}" id="pa" data-key="${esc(e.key)}" data-st="${st}">
+    <div class="pa-top"><span class="pa-lbl">${st === "agora" ? "Aula agora" : "Próxima aula"}</span>${e.status === "remarcada" ? bdg("remarcada", "Remarcada") : bdg("agendada", "Agendada")}</div>
+    <div class="pa-main">
+      <div><div class="pa-num">${tituloAula(e)}</div><div class="pa-when"><b>${diaSemana(e.data)}</b>${e.data === today() ? "Hoje" : fmtBR(e.data)} · ${durTxt(e.duracao)}</div></div>
+      <div class="pa-hora">${e.hora}</div>
+    </div>
+    <div class="pa-count" id="paCount">${st !== "breve" ? I.bell : ""}<span>${contagem(e)}</span></div>
+    <div class="pa-acts">${botaoEntrar(e, "lg")}<button class="btn" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}">Ver detalhes</button>
+      ${l ? "" : '<span class="dim" style="font-size:13px">O botão para entrar aparece aqui quando o professor cadastrar o link da aula.</span>'}</div>
+    ${blocoLembrete()}
+  </section>`;
+}
+function blocoLembrete() {
+  if (!("Notification" in window)) return "";
+  const p = Notification.permission;
+  if (p === "granted")
+    return `<div class="pa-notif">${I.bell}<span>Lembrete ativado: você recebe um aviso 10 minutos antes, enquanto esta página estiver aberta.</span></div>`;
+  if (p === "denied") return "";
+  return `<div class="pa-notif">${I.bell}<span>Quer um aviso 10 minutos antes da aula?</span><button class="btn sm" data-act="ativar-lembrete">Ativar lembrete</button></div>`;
+}
+
+/* ---------- INÍCIO ---------- */
+function viewInicio() {
+  const id = meuId(),
+    a = meuAluno();
+  const prox = proximasAulas(6);
+  const cur = cobrancaAtual(id, a);
+  const h = new Date().getHours();
+  const mats = aulasComRegistro()
+    .filter((e) => e.status !== "cancelada" && (e.doc.material || e.doc.conteudo))
+    .sort((x, y) => (y.data + y.hora).localeCompare(x.data + x.hora))
+    .slice(0, 3);
+  return `
+  <div class="hello"><h1>Olá, ${esc(first(a.nome))}! 👋</h1><p>${a.nivel ? `Nível atual: <b style="color:#fff">${esc(a.nivel)}</b> — ${esc(NIVEL_NOME[a.nivel])}` : fmtLong(today())}</p></div>
+  ${heroAula(prox[0])}
+  <div class="stats p3">
+    <div class="stat"><div class="l">Aulas realizadas</div><div class="v">${esc(a.totalRealizadas || 0)}</div><div class="s">desde ${a.inicio ? fmtBR(a.inicio) : "o início"}</div></div>
+    <div class="stat"><div class="l">Frequência</div><div class="v">${freqTxt(a)}</div><div class="s">${esc(agendaTxt(a))}</div></div>
+    <a class="stat link" href="#/financeiro"><div class="l">Mensalidade</div><div class="v">${cur ? money(cur.valor) : "Em dia"}</div><div class="s">${cur ? bdg(cur.status, ST_PAG[cur.status]) + " vence " + fmtBR(cur.venc) : "Nenhuma cobrança em aberto"}</div></a>
+  </div>
+  <div class="grid2">
+    <section class="glass sec"><div class="sec-title"><h2>Próximas aulas</h2><a class="btn sm" href="#/calendario">Ver calendário</a></div>
+      ${
+        prox.length > 1
+          ? `<div class="rows">${prox
+              .slice(1)
+              .map(
+                (e) =>
+                  `<button class="row" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}"><div class="t">${e.hora}<small>${whenLabel(e.data)}</small></div><div class="n">${tituloAula(e)}<small>${diaSemana(e.data)}, ${fmtDM(e.data)}</small></div>${bdg(e.status, ST_AULA[e.status])}</button>`,
+              )
+              .join("")}</div>`
+          : `<div class="empty">${prox.length ? "Por enquanto, só a aula em destaque está agendada." : "Nenhuma aula agendada."}</div>`
+      }</section>
+    <section class="glass sec"><div class="sec-title"><h2>Últimos conteúdos</h2><a class="btn sm" href="#/conteudos">Ver todos</a></div>
+      ${
+        mats.length
+          ? `<div class="rows">${mats.map((e) => linhaConteudo(e)).join("")}</div>`
+          : `<div class="empty">Os conteúdos e materiais das aulas aparecem aqui assim que o professor publicar.</div>`
+      }</section>
+  </div>`;
+}
+function linhaConteudo(e) {
+  return `<div class="row mrow"><div class="t">${e.status === "cancelada" ? "—" : "Aula " + esc(e.numero || "—")}<small>${fmtDM(e.data)}</small></div>
+    <button class="n" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}">${esc(e.doc.conteudo || "Material da aula")}<small>${e.doc.material ? "Material disponível" : "Sem material anexado"}</small></button>
+    ${e.doc.material ? `<a class="btn sm" href="${esc(safeUrl(e.doc.material))}" target="_blank" rel="noopener">${I.doc}Abrir</a>` : ""}</div>`;
+}
+
+/* ---------- MINHAS AULAS ---------- */
+function viewAulas() {
+  const hist = aulasComRegistro()
+    .filter((e) => e.status === "realizada" || e.status === "cancelada")
+    .sort((x, y) => (y.data + y.hora).localeCompare(x.data + x.hora));
+  const prox = proximasAulas(3);
+  return `<div class="page-head"><div><h1>Minhas aulas</h1><p>Seu histórico, com o conteúdo de cada aula e as observações do professor.</p></div></div>
+  <div class="stack">
+  <section class="glass sec"><div class="sec-title"><h2>Próximas</h2></div>
+    ${
+      prox.length
+        ? `<div class="rows">${prox.map((e) => `<button class="row" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}"><div class="t">${e.hora}<small>${whenLabel(e.data)}</small></div><div class="n">${tituloAula(e)}<small>${diaSemana(e.data)}, ${fmtBR(e.data)}</small></div>${bdg(e.status, ST_AULA[e.status])}</button>`).join("")}</div>`
+        : `<div class="empty">Nenhuma aula agendada.</div>`
+    }</section>
+  <section class="glass sec"><div class="sec-title"><h2>Histórico</h2>${hist.length ? `<span class="dim" style="font-size:13px">${plural(hist.filter((e) => e.status === "realizada").length, "aula realizada", "aulas realizadas")}</span>` : ""}</div>
+  ${
+    hist.length
+      ? `<div class="rows">${hist
+          .map(
+            (e) => `<button class="lesson" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}">
+    <div class="num">${e.status === "realizada" ? "Aula " + esc(e.numero || "—") : "—"}<small>${fmtBR(e.data)}</small></div>
+    <div><b>${esc(e.doc.conteudo || (e.status === "cancelada" ? "Aula cancelada" : "Aula realizada"))}</b>
+      ${e.doc.obs ? `<p>${esc(e.doc.obs)}</p>` : ""}
+      ${e.doc.material ? `<p class="has-mat">${I.doc}Material disponível</p>` : ""}</div>
+    ${bdg(e.status, ST_AULA[e.status])}</button>`,
+          )
+          .join("")}</div>`
+      : `<div class="empty"><b>Nenhuma aula no histórico ainda</b>Depois de cada aula, o professor registra o conteúdo, e ele aparece aqui.</div>`
+  }</section></div>`;
+}
+
+/* ---------- CONTEÚDOS ---------- */
+function viewConteudos() {
+  const l = aulasComRegistro()
+    .filter((e) => e.status !== "cancelada" && (e.doc.material || e.doc.conteudo))
+    .sort((x, y) => (y.data + y.hora).localeCompare(x.data + x.hora));
+  const t = today();
+  return `<div class="page-head"><div><h1>Conteúdos</h1><p>Os materiais estudados em cada aula, organizados do mais recente para o mais antigo.</p></div></div>
+  ${
+    l.length
+      ? `<div class="mats">${l
+          .map(
+            (e) => `<article class="glass mat">
+      <div class="mh"><b>${tituloAula(e)}</b><span>${fmtBR(e.data)}${e.data > t ? " · próxima" : ""}</span></div>
+      <h3>📚 ${esc(e.doc.conteudo || "Material da aula")}</h3>
+      ${e.doc.tarefas ? `<p class="mt">${esc(e.doc.tarefas)}</p>` : ""}
+      <div class="ml">Material da aula</div>
+      ${
+        e.doc.material
+          ? `<a class="btn pri" href="${esc(safeUrl(e.doc.material))}" target="_blank" rel="noopener">${I.doc}Acessar material</a>`
+          : `<span class="btn" aria-disabled="true" style="opacity:.55;cursor:default">Ainda não disponível</span>`
+      }
+      <button class="mat-more" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}">Ver detalhes da aula</button>
+    </article>`,
+          )
+          .join("")}</div>`
+      : `<section class="glass sec"><div class="empty"><b>Nenhum material por enquanto</b>Quando o professor publicar o conteúdo e o material de uma aula, ele aparece aqui.</div></section>`
+  }`;
+}
+
+/* ---------- FINANCEIRO ---------- */
+function viewFinanceiroAluno() {
+  const id = meuId(),
+    a = meuAluno();
+  const cur = cobrancaAtual(id, a);
+  const hist = pagamentosAluno(id, a).reverse();
+  const ultimoPago = hist.find((p) => p.status === "pago");
+  return `<div class="page-head"><div><h1>Financeiro</h1><p>Suas mensalidades. As aulas de cada mês são pagas no mês seguinte.</p></div></div>
+  <section class="glass fin-hero ${cur ? cur.status : "ok"}">
+    ${
+      cur
+        ? `<div><div class="l">Mensalidade</div><div class="v">${money(cur.valor)}</div><div class="s">Referente às ${esc(refTxt(cur.mes))}</div></div>
+      <div class="fh-r"><div class="kv1"><small>Vencimento</small><b>${fmtBR(cur.venc)}</b></div><div class="kv1"><small>Status</small>${bdg(cur.status, ST_PAG[cur.status])}</div></div>`
+        : `<div><div class="l">Mensalidade</div><div class="v">Tudo em dia</div><div class="s">${ultimoPago ? "Último pagamento: " + fmtMes(ultimoPago.mes) + (ultimoPago.pagoEm ? ", pago em " + fmtBR(ultimoPago.pagoEm) : "") : "Nenhuma cobrança em aberto."}</div></div>`
+    }
+  </section>
+  <section class="glass sec"><div class="sec-title"><h2>Histórico</h2></div>
+  ${
+    hist.length
+      ? `<div class="rows">${hist
+          .map(
+            (
+              p,
+            ) => `<div class="row frow"><div class="n">${fmtMes(p.mes)}<small>${esc(refTxt(p.mes))}</small></div>
+      <div class="fv">${money(p.valor)}<small>${p.status === "pago" ? "Pago em " + fmtBR(p.pagoEm) : "Vence " + fmtBR(p.venc)}</small></div>
+      ${bdg(p.status, ST_PAG[p.status])}</div>`,
+          )
+          .join("")}</div>`
+      : `<div class="empty">Nenhuma mensalidade registrada ainda.</div>`
+  }
+  <p class="hint">Somente o professor altera estas informações. Se algo estiver diferente, fale com o Teacher Tiago.</p></section>`;
+}
+
+/* ---------- MEU PERFIL ---------- */
+function viewPerfil() {
+  const a = meuAluno();
+  const hist = (a.historicoNivel || []).slice().sort((x, y) => x.data.localeCompare(y.data));
+  const cur = NIVEIS.indexOf(a.nivel);
+  const when = {};
+  hist.forEach((h) => {
+    if (!when[h.nivel]) when[h.nivel] = h.data;
+  });
+  const ev = a.evolucao || {};
+  const reg = (ev.registros || []).slice().sort((x, y) => y.data.localeCompare(x.data));
+  const block = (t, v) => (v ? `<div><small>${t}</small><div class="note">${esc(v)}</div></div>` : "");
+  const acomp =
+    block("Evolução", ev.progresso) +
+    block("Pontos fortes", ev.fortes) +
+    block("Conteúdos dominados", ev.dominados) +
+    block("Conteúdos para revisar", ev.revisar) +
+    block("Observações do professor", ev.obs);
+  return `<div class="page-head"><div><h1>Meu perfil</h1><p>Seus dados, sua evolução e a segurança da sua conta.</p></div></div>
+  <div class="stack">
+  <section class="glass prof-head">
+    <div class="av">${esc(initials(a.nome))}</div>
+    <div style="flex:1;min-width:220px"><h1>${esc(a.nome)}</h1>
+      <div class="facts"><span class="fact">Nível<b>${esc(a.nivel || "—")}</b></span><span class="fact">Frequência<b>${freqTxt(a)}</b></span><span class="fact">Aulas realizadas<b>${esc(a.totalRealizadas || 0)}</b></span></div></div>
+  </section>
+  <div class="grid2">
+    <section class="glass sec"><div class="sec-title"><h2>Meus dados</h2></div><div class="kv">
+      <div><small>Nome</small>${esc(a.nome)}</div>
+      <div><small>Usuário</small>${esc(S.me.usuario || a.nome)}</div>
+      <div><small>E-mail</small>${esc(a.email || "—")}</div>
+      <div><small>Telefone</small>${esc(a.whatsapp || "—")}</div>
+      <div><small>Início das aulas</small>${fmtBR(a.inicio)}</div>
+      <div><small>Nível atual</small>${esc(a.nivel ? a.nivel + " — " + NIVEL_NOME[a.nivel] : "—")}</div>
+      <div><small>Frequência</small>${freqTxt(a)}</div>
+      <div><small>Dias e horários</small>${esc(agendaTxt(a))}</div>
+      <div><small>Duração da aula</small>${durTxt(a.duracao || cfg().duracaoPadrao)}</div>
+    </div><p class="hint">Algum dado desatualizado? Avise o Teacher Tiago para corrigir.</p></section>
+    <section class="glass sec"><div class="sec-title"><h2>Alterar senha</h2></div>
+      <form id="senhaPerfilForm" class="fg" style="grid-template-columns:1fr" novalidate>
+        ${field("Senha atual", `<input name="atual" type="password" autocomplete="current-password" required>`)}
+        ${field("Nova senha", `<input name="nova" type="password" autocomplete="new-password" minlength="6" required>`)}
+        ${field("Confirmar nova senha", `<input name="conf" type="password" autocomplete="new-password" minlength="6" required>`)}
+        <div class="login-err" id="senhaPerfilErr" role="alert"></div>
+        <div><button class="btn pri" type="submit">Salvar nova senha</button></div>
+      </form></section>
+  </div>
+  <section class="glass sec"><div class="sec-title"><h2>Minha evolução</h2></div>
+    <div class="track">${NIVEIS.map((n, i) => `<div class="step ${i < cur ? "done" : ""} ${i === cur ? "cur" : ""}"><b>${n}</b><small>${when[n] ? fmtDM(when[n]) + "/" + when[n].slice(2, 4) : NIVEL_NOME[n]}</small></div>`).join("")}</div>
+    ${acomp ? `<div class="kv" style="margin-top:20px">${acomp}</div>` : ""}
+    ${
+      reg.length
+        ? `<h3 class="sub-h">Marcos</h3><div class="timeline">${reg
+            .slice(0, 8)
+            .map(
+              (r) =>
+                `<div class="tl"><i></i><div><small>${fmtBR(r.data)}</small><div class="note">${esc(r.texto)}</div></div></div>`,
+            )
+            .join("")}</div>`
+        : ""
+    }
+  </section>
+  <button class="btn danger" data-act="sair" style="align-self:flex-start">${I.out}Sair da conta</button>
+  </div>`;
+}
+
+
+/* ============================== js/portal/drawer.js ============================== */
+"use strict";
+/* Portal do Aluno: gaveta com os detalhes de uma aula (só leitura). */
+
+function renderLayer(fromDraw) {
+  if (!UI.ev || (layer && layer.type === "modal")) return;
+  const e = findEv(UI.ev.key, UI.ev.date);
+  if (!e) {
+    if (fromDraw) closeLayer();
+    return;
+  }
+  layer = { type: "drawer" };
+  const fim = fromMin(toMin(e.hora) + e.duracao);
+  const d = e.doc || {};
+  const futura = e.status === "agendada" || e.status === "remarcada";
+  const acts = [];
+  if (futura && linkDaAula(e)) acts.push(botaoEntrar(e));
+  if (d.material)
+    acts.push(
+      `<a class="btn ${acts.length ? "" : "pri"}" href="${esc(safeUrl(d.material))}" target="_blank" rel="noopener">${I.doc}Ver material</a>`,
+    );
+  $("#layer").innerHTML =
+    `<div class="overlay" data-act="close-bg" style="background:rgba(5,9,32,.35)"></div><aside class="drawer" role="dialog" aria-label="Detalhes da aula">
+    <div style="display:flex;justify-content:space-between;align-items:center">${bdg(e.status, ST_AULA[e.status])}<button class="x" data-act="close" aria-label="Fechar">${I.x}</button></div>
+    <div class="who"><div><h2 style="font-size:26px">${tituloAula(e)}</h2><div class="muted" style="font-size:13.5px">${diaSemana(e.data)}</div></div></div>
+    <dl class="dl">
+      <dt>Data</dt><dd>${fmtBR(e.data)}</dd>
+      <dt>Horário</dt><dd>${e.hora} às ${fim}</dd>
+      <dt>Duração</dt><dd>${durTxt(e.duracao)}</dd>
+      <dt>Status</dt><dd>${ST_AULA[e.status]}</dd>
+      ${e.status === "remarcada" && e.orig !== e.data ? `<dt>Data original</dt><dd>${fmtBR(e.orig)}</dd>` : ""}
+      ${d.conteudo ? `<dt>Conteúdo</dt><dd class="note">${esc(d.conteudo)}</dd>` : ""}
+      ${d.tarefas ? `<dt>Tarefas</dt><dd class="note">${esc(d.tarefas)}</dd>` : ""}
+      ${d.obs ? `<dt>Observações do professor</dt><dd class="note">${esc(d.obs)}</dd>` : ""}
+      <dt>Material</dt><dd>${d.material ? `<a href="${esc(safeUrl(d.material))}" target="_blank" rel="noopener">Abrir no Google Drive</a>` : '<span class="dim">Ainda não disponível</span>'}</dd>
+      ${futura ? `<dt>Link da aula</dt><dd>${linkDaAula(e) ? `<a href="${esc(safeUrl(linkDaAula(e)))}" target="_blank" rel="noopener">${esc(safeUrl(linkDaAula(e)).replace(/^https?:\/\//, ""))}</a>` : '<span class="dim">O professor ainda não cadastrou</span>'}</dd>` : ""}
+    </dl>
+    ${acts.length ? `<div class="acts">${acts.join("")}</div>` : ""}</aside>`;
+}
+
+
+/* ============================== js/portal/lembrete.js ============================== */
+"use strict";
+/* Portal do Aluno: atualiza a contagem regressiva e avisa 10 minutos antes da aula.
+   A notificação do navegador só funciona com a página aberta (em uma aba). */
+
+const LEMBRETE_KEY = "teacher-tiago:lembrete:";
+async function ativarLembrete() {
+  if (!("Notification" in window)) return toast("Este navegador não permite notificações.", true);
+  try {
+    const p = await Notification.requestPermission();
+    toast(p === "granted" ? "Lembrete ativado" : "Notificações bloqueadas no navegador.", p !== "granted");
+  } catch (e) {
+    toast("Não foi possível ativar as notificações.", true);
+  }
+  draw();
+}
+function notificar(e) {
+  const k = LEMBRETE_KEY + e.key + "|" + e.data + e.hora;
+  try {
+    if (localStorage.getItem(k)) return;
+    localStorage.setItem(k, "1");
+  } catch (er) {}
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
+  try {
+    const n = new Notification("🔔 Sua aula começa em 10 minutos!", {
+      body: `${tituloAula(e)} — ${e.hora}. Toque para abrir.`,
+      tag: e.key,
+    });
+    n.onclick = () => {
+      window.focus();
+      go("#/inicio");
+      n.close();
+    };
+  } catch (er) {
+    // celulares exigem service worker para notificações; o destaque na tela continua funcionando
+  }
+}
+function tickLembrete() {
+  if (!S.me || !meuAluno()) return;
+  const prox = proximasAulas(1)[0];
+  if (prox) {
+    const falta = evStart(prox) - Date.now();
+    if (falta > 0 && falta <= 10 * 60000) notificar(prox);
+  }
+  const pa = document.getElementById("pa");
+  if (UI.route !== "inicio" || !pa) return;
+  if (!prox || pa.dataset.key !== prox.key || pa.dataset.st !== estadoAula(prox)) {
+    render();
+    return;
+  }
+  const c = document.querySelector("#paCount span");
+  if (c) c.textContent = contagem(prox);
+}
+setInterval(tickLembrete, 15000);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) tickLembrete();
+});
+
+
+/* ============================== js/portal/events.js ============================== */
+"use strict";
+/* Portal do Aluno: cliques e formulários. O aluno só consulta; não há ações de edição. */
+
+document.addEventListener("click", async (ev) => {
+  const el = ev.target.closest("[data-act]");
+  if (!el) return;
+  const act = el.dataset.act;
+  const d = el.dataset;
+  if (!act) return;
+  if (act === "close-bg") {
+    if (ev.target === el) closeLayer();
+    return;
+  }
+  if (act === "cal-day" && ev.target.closest(".pill")) return;
+  if (calAction(act, d)) return;
+  switch (act) {
+    case "close":
+      closeLayer();
+      draw();
+      break;
+    case "ev":
+      openEv(d.key, d.date);
+      break;
+    case "ativar-lembrete":
+      ativarLembrete();
+      break;
+    case "sair":
+      sairPortal();
+      break;
+  }
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && $("#layer").innerHTML) {
+    closeLayer();
+    draw();
+  }
+  calKey(e);
+});
+document.addEventListener("change", (e) => {
+  calChange(e.target);
+});
+document.addEventListener("submit", async (e) => {
+  const f = e.target;
+  if (f.id !== "senhaPerfilForm") return;
+  e.preventDefault();
+  const fd = new FormData(f);
+  const err = $("#senhaPerfilErr");
+  const atual = String(fd.get("atual") || ""),
+    nova = String(fd.get("nova") || ""),
+    conf = String(fd.get("conf") || "");
+  err.textContent = validarSenhaNova(nova, conf) || (!atual ? "Digite sua senha atual." : "");
+  if (err.textContent) return;
+  const btn = f.querySelector("[type=submit]");
+  btn.disabled = true;
+  try {
+    await trocarSenha(atual, nova);
+    f.reset();
+    toast("Senha alterada");
+  } catch (er) {
+    console.warn(er);
+    err.textContent = /invalid-credential|wrong-password/.test((er && er.code) || "")
+      ? "A senha atual está incorreta."
+      : authMsg(er, "aluno");
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+
+/* ============================== js/portal/auth.js ============================== */
+"use strict";
+/* Portal do Aluno: login, primeiro acesso (troca de senha) e carregamento dos dados.
+
+   Segurança: o portal só pede ao banco os documentos do próprio aluno, e as regras
+   do Firestore (firestore.rules) recusam qualquer leitura de outro aluno. Mesmo que
+   alguém altere este código no navegador, o banco não entrega dados de terceiros. */
+
+const P = { db: null, auth: null };
+let PUNSUBS = [];
+function stopPortal() {
+  PUNSUBS.forEach((f) => {
+    try {
+      f();
+    } catch (e) {}
+  });
+  PUNSUBS = [];
+  S.subsOn = false;
+}
+function resetPortal() {
+  S.alunos = {};
+  S.aulas = {};
+  S.pags = {};
+  S.config = { ...DEFAULT_CONFIG };
+  S.ready = { alunos: 0, aulas: 0, pags: 0, config: 0 };
+  S.aulasBy = {};
+  S.pagsBy = {};
+  S.noDb = false;
+  S.noDbMsg = "";
+  S.noDbTitulo = "";
+}
+
+/* Mostra uma das telas de entrada (login, criar senha, aviso) ou o portal. */
+function telaPortal(qual) {
+  const app = qual === "app";
+  document.body.classList.toggle("locked", !app);
+  for (const [id, k] of [
+    ["cardLogin", "login"],
+    ["cardSenha", "senha"],
+    ["cardAviso", "aviso"],
+  ])
+    $("#" + id).hidden = qual !== k;
+  if (!app) {
+    closeLayer();
+    const f = $(qual === "senha" ? "#senhaForm [name=nova]" : "#loginForm [name=usuario]");
+    if (f && qual !== "aviso" && window.innerWidth > 860) setTimeout(() => f.focus(), 50);
+  }
+}
+function aviso(titulo, texto, botoes) {
+  $("#avisoT").textContent = titulo;
+  $("#avisoP").textContent = texto;
+  $("#avisoA").innerHTML = botoes || "";
+  telaPortal("aviso");
+}
+const BTN_SAIR = '<button class="btn" type="button" data-act="sair">Sair</button>';
+
+function validarSenhaNova(nova, conf) {
+  if (nova.length < 6) return "A nova senha precisa ter pelo menos 6 caracteres.";
+  if (nova !== conf) return "As duas senhas não são iguais.";
+  return "";
+}
+async function trocarSenha(atual, nova) {
+  const u = P.auth.currentUser;
+  const cred = firebase.auth.EmailAuthProvider.credential(u.email, atual);
+  await u.reauthenticateWithCredential(cred);
+  await u.updatePassword(nova);
+}
+async function sairPortal() {
+  try {
+    await P.auth.signOut();
+  } catch (e) {
+    location.reload();
+  }
+}
+
+function startPortalSubs(db) {
+  if (S.subsOn) return;
+  S.subsOn = true;
+  S.db = db;
+  const aid = S.me.alunoId;
+  const falha = (e) => {
+    console.error(e);
+    S.noDb = true;
+    S.noDbTitulo = "Não foi possível abrir seus dados";
+    S.noDbMsg =
+      e && e.code === "permission-denied"
+        ? "Seu acesso não tem permissão para ver estes dados. Fale com o Teacher Tiago."
+        : "A conexão falhou. Verifique sua internet e tente de novo.";
+    draw();
+  };
+  PUNSUBS.push(
+    db
+      .collection("alunos")
+      .doc(aid)
+      .onSnapshot((s) => {
+        S.alunos = s.exists ? { [aid]: s.data() } : {};
+        S.ready.alunos = 1;
+        if (!s.exists) {
+          S.noDb = true;
+          S.noDbTitulo = "Cadastro não encontrado";
+          S.noDbMsg = "Não encontramos o seu cadastro. Fale com o Teacher Tiago.";
+        }
+        render();
+      }, falha),
+  );
+  PUNSUBS.push(
+    db
+      .collection("aulas")
+      .where("alunoId", "==", aid)
+      .onSnapshot((s) => {
+        S.aulas = toMap(s);
+        S.ready.aulas = 1;
+        render();
+      }, falha),
+  );
+  PUNSUBS.push(
+    db
+      .collection("pagamentos")
+      .where("alunoId", "==", aid)
+      .onSnapshot((s) => {
+        S.pags = toMap(s);
+        S.ready.pags = 1;
+        render();
+      }, falha),
+  );
+  PUNSUBS.push(
+    db.doc("config/geral").onSnapshot(
+      (s) => {
+        S.config = s.exists ? s.data() : {};
+        S.ready.config = 1;
+        render();
+      },
+      () => {},
+    ),
+  );
+}
+const toMap = (s) => {
+  const o = {};
+  s.docs.forEach((d) => {
+    o[d.id] = d.data();
+  });
+  return o;
+};
+
+/* Depois do login: confere o vínculo da conta com um aluno e abre o portal. */
+function abrirConta(db, user) {
+  PUNSUBS.push(
+    db
+      .collection("usuarios")
+      .doc(user.uid)
+      .onSnapshot(
+        (s) => {
+          if (!s.exists) {
+            stopPortal();
+            resetPortal();
+            S.me = null;
+            const professor = !String(user.email || "").endsWith("@" + PORTAL_DOMINIO);
+            aviso(
+              professor ? "Esta é a conta do professor" : "Acesso não encontrado",
+              professor
+                ? "A Área do Aluno é para os alunos. Para gerenciar as aulas, use o painel de gestão."
+                : "Seu acesso à Área do Aluno não está ativo. Fale com o Teacher Tiago.",
+              (professor ? '<a class="btn pri" href="index.html">Abrir painel de gestão</a>' : "") + BTN_SAIR,
+            );
+            return;
+          }
+          S.me = { uid: user.uid, ...s.data() };
+          if (!S.me.senhaTrocada) {
+            telaPortal("senha");
+            return;
+          }
+          startPortalSubs(db);
+          telaPortal("app");
+          draw();
+        },
+        (e) => {
+          console.error(e);
+          aviso("Não foi possível entrar", "Verifique sua conexão com a internet e tente de novo.", BTN_SAIR);
+        },
+      ),
+  );
+}
+
+async function iniciarPortal() {
+  window.PORTAL_MODE = true;
+  route();
+  if (!firebaseConfigurado()) {
+    aviso("Área do Aluno em preparação", "O portal ainda não foi ativado. Fale com o Teacher Tiago.");
+    return;
+  }
+  try {
+    await carregarFirebase();
+  } catch (e) {
+    aviso(
+      "Sem conexão",
+      "Não foi possível carregar a Área do Aluno. Verifique sua internet e tente de novo.",
+      '<button class="btn pri" type="button" onclick="location.reload()">Tentar de novo</button>',
+    );
+    return;
+  }
+  const { db, auth } = iniciarApp();
+  P.db = db;
+  P.auth = auth;
+
+  // login
+  const form = $("#loginForm"),
+    err = $("#loginErr"),
+    btn = $("#loginBtn");
+  form.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    err.textContent = "";
+    const fd = new FormData(form);
+    const usuario = String(fd.get("usuario") || "").trim(),
+      senha = String(fd.get("senha") || "");
+    if (!usuario || !senha) {
+      err.textContent = !usuario ? "Digite seu nome de usuário." : "Digite a senha.";
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = "Entrando…";
+    try {
+      await auth.signInWithEmailAndPassword(usuarioParaEmail(usuario), senha);
+      form.reset();
+      if (location.hash !== "#/inicio") location.hash = "#/inicio"; // todo login começa no Início
+    } catch (e) {
+      console.warn(e);
+      err.textContent = authMsg(e, "aluno");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Entrar";
+    }
+  });
+
+  // primeiro acesso: criar senha nova
+  const sf = $("#senhaForm"),
+    serr = $("#senhaErr");
+  sf.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    serr.textContent = "";
+    const fd = new FormData(sf);
+    const nova = String(fd.get("nova") || ""),
+      conf = String(fd.get("conf") || "");
+    const v = validarSenhaNova(nova, conf);
+    if (v) {
+      serr.textContent = v;
+      return;
+    }
+    const b = sf.querySelector("[type=submit]");
+    b.disabled = true;
+    try {
+      const a = (await db.collection("alunos").doc(S.me.alunoId).get()).data() || {};
+      if (digitos(a.whatsapp) && nova === digitos(a.whatsapp)) {
+        serr.textContent = "Escolha uma senha diferente do seu telefone.";
+        return;
+      }
+      await auth.currentUser.updatePassword(nova);
+      await db
+        .collection("usuarios")
+        .doc(auth.currentUser.uid)
+        .update({ senhaTrocada: true, senhaTrocadaEm: today() });
+      sf.reset();
+      toast("Senha criada. Bem-vindo(a)!");
+    } catch (e) {
+      console.warn(e);
+      serr.textContent = authMsg(e, "aluno");
+    } finally {
+      b.disabled = false;
+    }
+  });
+
+  auth.onAuthStateChanged((user) => {
+    stopPortal();
+    resetPortal();
+    S.user = user || null;
+    S.me = null;
+    if (!user) {
+      telaPortal("login");
+      return;
+    }
+    $("#main").innerHTML = '<div class="loading">Carregando suas aulas…</div>';
+    abrirConta(db, user);
+  });
+}
+iniciarPortal();
+
+</script>
+  </body>
+</html>

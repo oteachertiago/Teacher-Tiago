@@ -1750,6 +1750,435 @@ body.locked #login {
     opacity: 0;
   }
 }
+
+/* ============================================================
+   PORTAL DO ALUNO
+   Mesmos tokens e componentes do painel; abaixo só o que é exclusivo do portal.
+   ============================================================ */
+.ptop {
+  display: none;
+}
+.nav-out {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 0;
+  background: none;
+  color: var(--dim);
+  font: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+.nav-out svg {
+  width: 20px;
+  height: 20px;
+}
+.nav-out:hover {
+  color: var(--text);
+  background: var(--glass);
+}
+.login-tip {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: var(--dim);
+  text-align: center;
+}
+#login [hidden] {
+  display: none !important;
+}
+#avisoA {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+#avisoA .btn {
+  flex: 1;
+}
+/* próxima aula */
+.pa {
+  position: relative;
+  overflow: hidden;
+  padding: 26px 28px 24px;
+  margin-bottom: 22px;
+}
+.pa::before {
+  content: "";
+  position: absolute;
+  inset: auto -80px -120px auto;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 222, 89, 0.14), transparent 65%);
+  pointer-events: none;
+}
+.pa-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.pa-lbl {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--yel);
+}
+.pa-main {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.pa-num {
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.pa-when {
+  margin-top: 10px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 14px;
+}
+.pa-when b {
+  display: block;
+  color: var(--text);
+  font-size: 19px;
+}
+.pa-hora {
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--yel);
+  letter-spacing: -0.02em;
+}
+.pa-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--muted);
+}
+.pa-count svg,
+.pa-notif svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.pa-acts {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 18px;
+  position: relative;
+}
+.btn.lg {
+  padding: 14px 24px;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.btn svg {
+  width: 18px;
+  height: 18px;
+}
+.pa.logo {
+  border-color: rgba(255, 222, 89, 0.6);
+  background: linear-gradient(160deg, rgba(255, 222, 89, 0.2), rgba(255, 222, 89, 0.05));
+}
+.pa.agora {
+  border-color: rgba(95, 212, 154, 0.55);
+  background: linear-gradient(160deg, rgba(95, 212, 154, 0.2), rgba(95, 212, 154, 0.05));
+}
+.pa.logo .pa-count {
+  color: var(--yel);
+  font-size: 17px;
+}
+.pa.agora .pa-count {
+  color: var(--green);
+  font-size: 17px;
+}
+.pa.logo .btn.lg,
+.pa.agora .btn.lg {
+  animation: pa-pulse 1.8s ease-out infinite;
+}
+@keyframes pa-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 222, 89, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(255, 222, 89, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 222, 89, 0);
+  }
+}
+.pa-notif {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line2);
+  font-size: 13px;
+  color: var(--muted);
+  position: relative;
+}
+.stats.p3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 22px;
+}
+.stat.link {
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+.stat.link:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.stat .s .bdg {
+  margin-right: 4px;
+}
+/* linhas de conteúdo e financeiro */
+.row.mrow {
+  grid-template-columns: 70px minmax(0, 1fr) auto;
+}
+.row.mrow .n {
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.row.frow {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+.row .fv {
+  text-align: right;
+  font-weight: 700;
+}
+.row .fv small {
+  display: block;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--dim);
+}
+.lesson .has-mat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--yel);
+  font-weight: 600;
+}
+.lesson .has-mat svg {
+  width: 15px;
+  height: 15px;
+}
+.mats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 14px;
+}
+.mat {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mat .mh {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--dim);
+  font-weight: 600;
+}
+.mat .mh b {
+  color: var(--yel);
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.mat h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.mat .mt {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.mat .ml {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.mat-more {
+  background: none;
+  border: 0;
+  padding: 2px 0 0;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: center;
+}
+.fin-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 26px 28px;
+  margin-bottom: 18px;
+}
+.fin-hero .l {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--yel);
+}
+.fin-hero .v {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.fin-hero .s {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.fin-hero .fh-r {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.kv1 small {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dim);
+  margin-bottom: 4px;
+}
+.kv1 b {
+  font-size: 18px;
+}
+.fin-hero.atrasado {
+  border-color: rgba(255, 139, 155, 0.5);
+  background: linear-gradient(160deg, rgba(203, 51, 72, 0.22), rgba(203, 51, 72, 0.06));
+}
+.fin-hero.pago,
+.fin-hero.ok {
+  border-color: rgba(95, 212, 154, 0.4);
+}
+.sub-h {
+  margin: 22px 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+}
+@media (max-width: 1060px) {
+  .stats.p3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 860px) {
+  .ptop {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 25;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(12, 19, 58, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line2);
+  }
+  .ptop .brand {
+    padding: 0;
+  }
+  .ptop .brand b {
+    font-size: 18px;
+  }
+  .ptop .brand span {
+    font-size: 11.5px;
+  }
+  .ptop-av {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 14px;
+    color: #141c4a;
+    background: var(--yel);
+    text-decoration: none;
+    border: 2px solid transparent;
+  }
+  .ptop-av.on {
+    border-color: #fff;
+  }
+  body.locked .ptop {
+    display: none;
+  }
+  .pa {
+    padding: 22px 20px 20px;
+  }
+  .pa-num,
+  .pa-hora {
+    font-size: 36px;
+  }
+  .pa-acts .btn {
+    flex: 1 1 100%;
+  }
+  .stats.p3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .stats.p3 .stat.link {
+    grid-column: 1/-1;
+  }
+  .fin-hero {
+    padding: 22px 20px;
+  }
+  .fin-hero .v {
+    font-size: 32px;
+  }
+  .row.frow {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .row.frow .bdg {
+    grid-column: 1/-1;
+    justify-self: start;
+  }
+}
 </style>
   </head>
   <body>
@@ -1950,6 +2379,33 @@ const I = {
   back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
 };
 
+/* ---------- links e Portal do Aluno ---------- */
+function safeUrl(u) {
+  u = String(u || "").trim();
+  if (!u) return "";
+  if (!/^https?:\/\//i.test(u)) u = "https://" + u;
+  return u;
+}
+const digitos = (s) => String(s || "").replace(/\D/g, "");
+/* O login do aluno é o nome de usuário. Por baixo, o Firebase usa um
+   e-mail interno gerado a partir dele (nenhum e-mail é enviado). */
+const PORTAL_DOMINIO = "alunos.oteachertiago.app";
+function usuarioParaEmail(usuario) {
+  const slug = String(usuario || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ".")
+    .replace(/^\.+|\.+$/g, "");
+  return slug ? slug + "@" + PORTAL_DOMINIO : "";
+}
+const durTxt = (m) => {
+  m = Number(m) || 0;
+  const h = Math.floor(m / 60),
+    r = m % 60;
+  return h ? h + "h" + (r ? pad(r) : "") : r + " min";
+};
+
 
 /* ============================== js/core/state.js ============================== */
 "use strict";
@@ -1993,7 +2449,39 @@ const cfg = () => ({
 });
 
 /* ---------- data access ---------- */
-const coll = (n) => S.db.collection(n);
+/* Campos do aluno que só o professor vê. Ficam na coleção "alunosPriv",
+   que o aluno não consegue ler (ver firestore.rules). O resto do cadastro
+   fica em "alunos" e aparece no Portal do Aluno. */
+const PRIV_FIELDS = ["dificuldades", "pontos", "conteudos", "observacoes"];
+function splitAluno(data) {
+  const pub = {},
+    priv = {};
+  for (const [k, v] of Object.entries(data || {})) (PRIV_FIELDS.includes(k) ? priv : pub)[k] = v;
+  return [pub, priv];
+}
+function alunoRef(id) {
+  const c = S.db.collection("alunos");
+  const pubRef = id ? c.doc(id) : c.doc();
+  const privRef = S.db.collection("alunosPriv").doc(pubRef.id);
+  return {
+    id: pubRef.id,
+    async set(data) {
+      const [p, q] = splitAluno(data);
+      await pubRef.set(p);
+      await privRef.set(q);
+    },
+    async update(data) {
+      const [p, q] = splitAluno(data);
+      if (Object.keys(p).length) await pubRef.update(p);
+      if (Object.keys(q).length) await privRef.set(q, { merge: true });
+    },
+    async delete() {
+      await privRef.delete();
+      await pubRef.delete();
+    },
+  };
+}
+const coll = (n) => (n === "alunos" ? { doc: (id) => alunoRef(id) } : S.db.collection(n));
 async function W(fn, okMsg) {
   if (!S.db) {
     toast("Sem conexão com o banco de dados.", true);
@@ -2289,7 +2777,7 @@ const go = (h) => {
 };
 function noDbView() {
   const m = S.noDbMsg || "Verifique sua conexão com a internet e abra a plataforma novamente.";
-  return `<div class="page-head"><div><h1>Não foi possível abrir os dados</h1><p>${esc(m)}</p></div></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" type="button" onclick="location.reload()">Tentar de novo</button>${S.user ? '<button class="btn" type="button" data-act="logout">Sair da conta</button>' : ""}</div>`;
+  return `<div class="page-head"><div><h1>${S.contaAluno ? "Acesso restrito" : "Não foi possível abrir os dados"}</h1><p>${esc(m)}</p></div></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" type="button" onclick="location.reload()">Tentar de novo</button>${S.contaAluno ? '<a class="btn pri" href="aluno.html">Ir para a Área do Aluno</a>' : ""}${S.user ? '<button class="btn" type="button" data-act="logout">Sair da conta</button>' : ""}</div>`;
 }
 
 
@@ -2348,6 +2836,10 @@ function whenLabel(ds) {
   if (ds === ymd(addDays(new Date(), 1))) return "Amanhã";
   const d = parse(ds);
   return DOW[d.getDay()] + " " + fmtDM(ds);
+}
+/* Campo de formulário com rótulo (usado no painel e no portal). */
+function field(label, inner, cls) {
+  return `<label class="f ${cls || ""}">${label}${inner}</label>`;
 }
 
 
@@ -2617,6 +3109,7 @@ function tabGeral(id, a) {
       <div><small>Link da aula</small>${a.link ? `<a href="${esc(safeUrl(a.link))}" target="_blank" rel="noopener">Abrir link</a>` : "—"}</div></div></section>
   </div><div class="stack">
     <section class="glass sec"><div class="sec-title"><h2>Próximas aulas</h2></div>${prox.length ? `<div class="rows">${prox.map((e) => `<button class="row" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}"><div class="t">${e.hora}<small>${whenLabel(e.data)}</small></div><div class="n">Aula ${e.numero}<small>${e.duracao} min</small></div>${bdg(e.status, ST_AULA[e.status])}</button>`).join("")}</div>` : `<div class="empty">${a.status === "ativo" ? "Defina dias e horários no cadastro para gerar a agenda." : "Aluno " + ST_AL[a.status].toLowerCase() + ": sem aulas na agenda."}</div>`}</section>
+    ${cardPortal(id, a)}
     <section class="glass sec"><div class="sec-title"><h2>Status do aluno</h2></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">${Object.entries(ST_AL)
         .map(
@@ -2627,12 +3120,6 @@ function tabGeral(id, a) {
       <p class="hint">Alunos pausados ou encerrados saem da agenda e deixam de gerar cobranças novas. O histórico continua salvo.</p>
       <button class="btn sm danger" style="margin-top:10px" data-act="del-aluno" data-id="${id}">Excluir aluno</button></section>
   </div></div>`;
-}
-function safeUrl(u) {
-  u = String(u || "").trim();
-  if (!u) return "";
-  if (!/^https?:\/\//i.test(u)) u = "https://" + u;
-  return u;
 }
 function tabAulas(id, a) {
   const l = (S.aulasBy[id] || [])
@@ -2650,7 +3137,8 @@ function tabAulas(id, a) {
       ${x.v.conteudo ? `<p><b>Conteúdo:</b> ${esc(x.v.conteudo)}</p>` : ""}
       ${x.v.tarefas ? `<p><b>Tarefas:</b> ${esc(x.v.tarefas)}</p>` : ""}
       ${x.v.obs ? `<p><b>Observações:</b> ${esc(x.v.obs)}</p>` : ""}
-      ${!x.v.conteudo && !x.v.obs && !x.v.tarefas ? `<p>Sem anotações</p>` : ""}</div>
+      ${x.v.material ? `<p><b>Material:</b> <a href="${esc(safeUrl(x.v.material))}" target="_blank" rel="noopener">abrir</a></p>` : ""}
+      ${!x.v.conteudo && !x.v.obs && !x.v.tarefas && !x.v.material ? `<p>Sem anotações</p>` : ""}</div>
     ${bdg(x.v.status, ST_AULA[x.v.status])}</button>`,
           )
           .join("")}</div>`
@@ -2705,7 +3193,7 @@ function tabEvo(id, a) {
   return `<div class="stack">
   <section class="glass sec"><div class="sec-title"><h2>Nível</h2><button class="btn sm" data-act="nivel" data-id="${id}">Alterar nível</button></div>
     <div class="track">${NIVEIS.map((n, i) => `<div class="step ${i < cur ? "done" : ""} ${i === cur ? "cur" : ""}"><b>${n}</b><small>${when[n] ? fmtDM(when[n]) + "/" + when[n].slice(2, 4) : NIVEL_NOME[n]}</small></div>`).join("")}</div>
-    <p class="hint">A data abaixo de cada nível mostra quando o aluno chegou a ele.</p></section>
+    <p class="hint">A data abaixo de cada nível mostra quando o aluno chegou a ele. O aluno vê esta aba no Portal, exceto as dificuldades.</p></section>
   <div class="grid2">
     <section class="glass sec"><div class="sec-title"><h2>Aulas realizadas por mês</h2></div>
       <div class="bars">${cnt.map((c, i) => `<div class="bar"><em>${c}</em><i style="height:${Math.round((c / mx) * 80)}%"></i><span>${MESC[Number(months[i].slice(5)) - 1]}</span></div>`).join("")}</div></section>
@@ -2737,7 +3225,7 @@ function tabFin(id, a) {
 function tabObs(id, a) {
   const block = (t, v) =>
     `<div><small>${t}</small><div class="note">${v ? esc(v) : '<span class="dim">—</span>'}</div></div>`;
-  return `<section class="glass sec"><div class="sec-title"><h2>Informações pedagógicas</h2><button class="btn sm" data-act="edit-aluno" data-id="${id}" data-sec="ped">Editar</button></div>
+  return `<section class="glass sec"><div class="sec-title"><h2>Informações pedagógicas <span class="dim" style="font-size:12.5px;font-weight:500">— só você vê</span></h2><button class="btn sm" data-act="edit-aluno" data-id="${id}" data-sec="ped">Editar</button></div>
   <div class="kv" style="grid-template-columns:1fr">${block("Principais dificuldades", a.dificuldades)}${block("Pontos que precisam ser trabalhados", a.pontos)}${block("Conteúdos estudados", a.conteudos)}${block("Observações gerais", a.observacoes)}</div></section>`;
 }
 
@@ -2748,6 +3236,8 @@ function tabObs(id, a) {
 
 /* ---------- CALENDÁRIO ---------- */
 const HOUR = 60;
+/* No Portal do Aluno o calendário mostra só as aulas dele, sem ações de gestão. */
+const isPortal = () => window.PORTAL_MODE === true;
 function calRange() {
   const c = UI.cal,
     d = parse(c.date);
@@ -2798,10 +3288,10 @@ function viewCal() {
           `<button class="${c.mode === k ? "on" : ""}" data-act="cal-mode" data-v="${k}">${l}</button>`,
       )
       .join("")}</div>
-      <button class="btn pri" data-act="nova-aula">${I.plus}Aula avulsa</button></div>
+      ${isPortal() ? "" : `<button class="btn pri" data-act="nova-aula">${I.plus}Aula avulsa</button>`}</div>
   </div>
   <section class="glass cal ${c.mode === "dia" ? "day" : ""}">${body}</section>
-  <div class="legend"><span><i style="background:var(--info)"></i>Agendada</span><span><i style="background:var(--green)"></i>Realizada</span><span><i style="background:var(--yel)"></i>Remarcada</span><span><i style="background:var(--red)"></i>Cancelada</span><span class="dim">Ponto amarelo: aula passada sem registro</span></div>`;
+  <div class="legend"><span><i style="background:var(--info)"></i>Agendada</span><span><i style="background:var(--green)"></i>Realizada</span><span><i style="background:var(--yel)"></i>Remarcada</span><span><i style="background:var(--red)"></i>Cancelada</span>${isPortal() ? "" : '<span class="dim">Ponto amarelo: aula passada sem registro</span>'}</div>`;
 }
 function weekDays(d) {
   const s = startOfWeek(d);
@@ -2874,18 +3364,22 @@ function weekGrid(days, evs, isDay) {
           const top = ((it.s - h0 * 60) / 60) * HOUR;
           const hgt = Math.max(26, (e.duracao / 60) * HOUR - 3);
           const w = 100 / it.n;
-          const pend = e.pending && evEnd(e) < nowTs;
+          const pend = !isPortal() && e.pending && evEnd(e) < nowTs;
           const lbl = e.status === "cancelada" ? "Cancelada" : "Aula " + (e.numero || "—");
-          return `<button class="ev ${e.status}${pend ? " pend" : ""}" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}" style="top:${top + 1}px;height:${hgt}px;left:calc(${w * it.lane}% + 3px);width:calc(${w}% - 6px)" title="${esc(e.aluno.nome)} ${e.hora}">
-        <b>${esc(isDay ? e.aluno.nome : first(e.aluno.nome) + (first(e.aluno.nome) !== e.aluno.nome.trim() ? " " + initials(e.aluno.nome).slice(1) + "." : ""))}</b>
-        <span>${e.hora} — ${lbl}</span>${isDay && hgt > 50 ? `<span>${e.aluno.nivel ? "Nível " + esc(e.aluno.nivel) + " — " : ""}${e.duracao} min${e.status !== "agendada" ? " — " + ST_AULA[e.status] : ""}</span>` : ""}</button>`;
+          return `<button class="ev ${e.status}${pend ? " pend" : ""}" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}" style="top:${top + 1}px;height:${hgt}px;left:calc(${w * it.lane}% + 3px);width:calc(${w}% - 6px)" title="${esc(isPortal() ? (e.status === "cancelada" ? "Aula cancelada" : "Aula " + (e.numero || "")) : e.aluno.nome)} ${e.hora}">
+        ${
+          isPortal()
+            ? `<b>${lbl}</b><span>${e.hora}${e.status !== "agendada" ? " — " + ST_AULA[e.status] : ""}</span>${isDay && hgt > 50 ? `<span>${esc(durTxt(e.duracao))}${e.doc && e.doc.conteudo ? " — " + esc(e.doc.conteudo) : ""}</span>` : ""}`
+            : `<b>${esc(isDay ? e.aluno.nome : first(e.aluno.nome) + (first(e.aluno.nome) !== e.aluno.nome.trim() ? " " + initials(e.aluno.nome).slice(1) + "." : ""))}</b>
+        <span>${e.hora} — ${lbl}</span>${isDay && hgt > 50 ? `<span>${e.aluno.nivel ? "Nível " + esc(e.aluno.nivel) + " — " : ""}${e.duracao} min${e.status !== "agendada" ? " — " + ST_AULA[e.status] : ""}</span>` : ""}`
+        }</button>`;
         })
         .join("");
       const nl =
         ds === t && nowMin >= h0 * 60 && nowMin <= h1 * 60
           ? `<div class="now" style="top:${((nowMin - h0 * 60) / 60) * HOUR}px"></div>`
           : "";
-      return `<div class="col ${ds === t ? "today" : ""}" data-act="slot" data-date="${ds}" data-h0="${h0}" style="height:${H}px">${blocks}${nl}</div>`;
+      return `<div class="col ${ds === t ? "today" : ""}" data-act="${isPortal() ? "" : "slot"}" data-date="${ds}" data-h0="${h0}" style="height:${H}px">${blocks}${nl}</div>`;
     })
     .join("");
   return `<div class="cal-scroll" id="calScroll"><div class="wk" style="--cols:${days.length}">${head}${times}${cols}</div></div>`;
@@ -2912,7 +3406,7 @@ function monthGrid(d, evs) {
         .slice(0, 3)
         .map(
           (e) =>
-            `<button class="pill ${e.status}" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}" title="${esc(e.aluno.nome)}">${e.hora} ${esc(first(e.aluno.nome))}</button>`,
+            `<button class="pill ${e.status}" data-act="ev" data-key="${esc(e.key)}" data-date="${e.data}" title="${esc(isPortal() ? "Aula " + (e.numero || "") : e.aluno.nome)}">${e.hora} ${isPortal() ? (e.status === "cancelada" ? "Cancelada" : "Aula " + esc(e.numero || "")) : esc(first(e.aluno.nome))}</button>`,
         )
         .join("")}
       ${l.length > 3 ? `<span class="more">+${l.length - 3} ${l.length - 3 === 1 ? "aula" : "aulas"}</span>` : ""}</div>`;
@@ -3037,6 +3531,27 @@ function closeLayer() {
   UI.ev = null;
   $("#layer").innerHTML = "";
 }
+/* Link para entrar na aula: o desta aula, se houver; senão, o link fixo do aluno. */
+const linkDaAula = (e) => (e.doc && e.doc.link) || (e.aluno && e.aluno.link) || "";
+function findEv(key, date) {
+  const aid = key.split("_")[0];
+  const a = S.alunos[aid];
+  if (!a) return null;
+  const doc = S.aulas[key];
+  const d = doc ? doc.novaData || doc.data : date;
+  return eventosAluno(aid, a, d, d).find((e) => e.key === key) || null;
+}
+function openEv(key, date) {
+  UI.ev = { key, date };
+  layer = null;
+  renderLayer();
+}
+
+
+/* ============================== js/ui/drawer.js ============================== */
+"use strict";
+/* Painel: gaveta lateral com os detalhes e as ações de uma aula. */
+
 function renderLayer(fromDraw) {
   if (!UI.ev || (layer && layer.type === "modal")) return;
   const e = findEv(UI.ev.key, UI.ev.date);
@@ -3052,6 +3567,9 @@ function renderLayer(fromDraw) {
   const acts = [];
   if (e.status !== "realizada")
     acts.push(`<button class="btn pri" data-act="ev-done">Marcar como realizada</button>`);
+  acts.push(
+    `<button class="btn" data-act="ev-mat">${e.doc && e.doc.material ? "Editar material" : "Adicionar material"}</button>`,
+  );
   acts.push(`<button class="btn" data-act="ev-edit">Editar</button>`);
   if (e.status !== "realizada" && e.status !== "cancelada")
     acts.push(`<button class="btn" data-act="ev-resched">Remarcar</button>`);
@@ -3072,25 +3590,68 @@ function renderLayer(fromDraw) {
       <dt>Aula</dt><dd>${e.status === "cancelada" ? "—" : "Aula " + (e.numero || "—")}</dd>
       <dt>Nível</dt><dd>${esc(a.nivel ? a.nivel + " — " + NIVEL_NOME[a.nivel] : "—")}</dd>
       ${e.status === "remarcada" ? `<dt>Original</dt><dd>${fmtBR(e.orig)}</dd>` : ""}
-      <dt>Link</dt><dd>${a.link ? `<a href="${esc(safeUrl(a.link))}" target="_blank" rel="noopener">Entrar na aula</a>` : '<span class="dim">Não cadastrado</span>'}</dd>
+      <dt>Link</dt><dd>${linkDaAula(e) ? `<a href="${esc(safeUrl(linkDaAula(e)))}" target="_blank" rel="noopener">Entrar na aula</a>${e.doc && e.doc.link ? ' <span class="dim">(só desta aula)</span>' : ""}` : '<span class="dim">Não cadastrado</span>'}</dd>
+      <dt>Material</dt><dd>${e.doc && e.doc.material ? `<a href="${esc(safeUrl(e.doc.material))}" target="_blank" rel="noopener">Abrir material</a>` : '<span class="dim">Não cadastrado</span>'}</dd>
       ${e.doc && e.doc.conteudo ? `<dt>Conteúdo</dt><dd class="note">${esc(e.doc.conteudo)}</dd>` : ""}
       ${e.doc && e.doc.tarefas ? `<dt>Tarefas</dt><dd class="note">${esc(e.doc.tarefas)}</dd>` : ""}
-      <dt>Observações</dt><dd class="note">${e.doc && e.doc.obs ? esc(e.doc.obs) : '<span class="dim">—</span>'}</dd>
+      <dt>Observações<br><span class="dim" style="font-weight:500">(o aluno vê)</span></dt><dd class="note">${e.doc && e.doc.obs ? esc(e.doc.obs) : '<span class="dim">—</span>'}</dd>
     </dl>
     <div class="acts">${acts.join("")}</div></aside>`;
 }
-function findEv(key, date) {
-  const aid = key.split("_")[0];
-  const a = S.alunos[aid];
-  if (!a) return null;
-  const doc = S.aulas[key];
-  const d = doc ? doc.novaData || doc.data : date;
-  return eventosAluno(aid, a, d, d).find((e) => e.key === key) || null;
+
+
+/* ============================== js/ui/cal-actions.js ============================== */
+"use strict";
+/* Navegação do calendário (semana, dia, mês). Usada pelo painel e pelo Portal do Aluno. */
+
+function calAction(act, d) {
+  switch (act) {
+    case "cal-prev":
+    case "cal-next": {
+      const s = act === "cal-prev" ? -1 : 1;
+      const c = UI.cal,
+        x = parse(c.date);
+      c.date = ymd(
+        c.mode === "dia"
+          ? addDays(x, s)
+          : c.mode === "semana"
+            ? addDays(x, 7 * s)
+            : new Date(x.getFullYear(), x.getMonth() + s, 1),
+      );
+      draw();
+      return true;
+    }
+    case "cal-today":
+      UI.cal.date = today();
+      draw();
+      return true;
+    case "cal-mode":
+      UI.cal.mode = d.v;
+      draw();
+      return true;
+    case "cal-day":
+      UI.cal.date = d.date;
+      UI.cal.mode = "dia";
+      if (UI.route !== "calendario") go("#/calendario");
+      else draw();
+      return true;
+  }
+  return false;
 }
-function openEv(key, date) {
-  UI.ev = { key, date };
-  layer = null;
-  renderLayer();
+function calKey(e) {
+  if (e.key === "Enter" && e.target.classList && e.target.classList.contains("mo-c")) {
+    UI.cal.date = e.target.dataset.date;
+    UI.cal.mode = "dia";
+    draw();
+  }
+}
+function calChange(t) {
+  if (t.id === "calGo" && t.value) {
+    UI.cal.date = t.value;
+    draw();
+    return true;
+  }
+  return false;
 }
 
 
@@ -3099,9 +3660,6 @@ function openEv(key, date) {
 /* Formulários: cadastro/edição de aluno, aulas, pagamentos, nível e evolução. */
 
 /* ---------- forms ---------- */
-function field(label, inner, cls) {
-  return `<label class="f ${cls || ""}">${label}${inner}</label>`;
-}
 function alunoForm(id) {
   const a = id
     ? S.alunos[id]
@@ -3305,8 +3863,10 @@ function doneForm(e) {
   ${field("Duração", `<select name="duracao">${[30, 45, 60, 90, 120].map((m) => `<option value="${m}" ${e.duracao === m ? "selected" : ""}>${m} min</option>`).join("")}</select>`)}
   ${field("Conteúdo trabalhado", `<textarea name="conteudo" placeholder="Ex.: Present Perfect">${esc(e.doc && e.doc.conteudo)}</textarea>`, "full")}
   ${field("Exercícios / tarefas", `<textarea name="tarefas">${esc(e.doc && e.doc.tarefas)}</textarea>`, "full")}
-  ${field("Observações", `<textarea name="obs" placeholder="Ex.: trabalhar conversação na próxima aula">${esc(e.doc && e.doc.obs)}</textarea>`, "full")}
-  </div></div><div class="m-f"><button type="button" class="btn" data-act="close">Cancelar</button><button class="btn pri" type="submit">Salvar como realizada</button></div></form>`);
+  ${field("Observações para o aluno", `<textarea name="obs" placeholder="Ex.: revisar o vocabulário da aula">${esc(e.doc && e.doc.obs)}</textarea>`, "full")}
+  ${field("Link do material (Google Drive)", `<input name="material" inputmode="url" placeholder="https://drive.google.com/…" value="${esc(e.doc && e.doc.material)}">`, "full")}
+  ${field("Link da aula (só se for diferente do link fixo)", `<input name="link" inputmode="url" placeholder="${esc(e.aluno.link || "Meet, Zoom…")}" value="${esc(e.doc && e.doc.link)}">`, "full")}
+  </div><p class="hint">Conteúdo, tarefas, observações e links aparecem para o aluno no Portal.</p></div><div class="m-f"><button type="button" class="btn" data-act="close">Cancelar</button><button class="btn pri" type="submit">Salvar como realizada</button></div></form>`);
   layer.ev = e;
 }
 function editEvForm(e) {
@@ -3323,9 +3883,24 @@ function editEvForm(e) {
   )}
   ${field("Conteúdo trabalhado", `<textarea name="conteudo">${esc(e.doc && e.doc.conteudo)}</textarea>`, "full")}
   ${field("Exercícios / tarefas", `<textarea name="tarefas">${esc(e.doc && e.doc.tarefas)}</textarea>`, "full")}
-  ${field("Observações", `<textarea name="obs">${esc(e.doc && e.doc.obs)}</textarea>`, "full")}
+  ${field("Observações para o aluno", `<textarea name="obs">${esc(e.doc && e.doc.obs)}</textarea>`, "full")}
+  ${field("Link do material (Google Drive)", `<input name="material" inputmode="url" placeholder="https://drive.google.com/…" value="${esc(e.doc && e.doc.material)}">`, "full")}
+  ${field("Link da aula (só se for diferente do link fixo)", `<input name="link" inputmode="url" placeholder="${esc(e.aluno.link || "Meet, Zoom…")}" value="${esc(e.doc && e.doc.link)}">`, "full")}
   </div><p class="hint">Mudanças aqui valem só para esta aula. Para mudar o horário fixo do aluno, edite o cadastro dele.</p></div>
   <div class="m-f"><button type="button" class="btn" data-act="close">Cancelar</button><button class="btn pri" type="submit">Salvar</button></div></form>`);
+  layer.ev = e;
+}
+function matForm(e) {
+  openModal(
+    `<form id="matForm"><div class="m-h"><h2>Material da aula ${e.status === "cancelada" ? "" : esc(e.numero || "")}</h2><button type="button" class="x" data-act="close">${I.x}</button></div>
+  <div class="m-b"><p class="muted" style="margin:0 0 14px">${esc(e.aluno.nome)} — ${fmtLong(e.data)}, ${e.hora}</p><div class="fg">
+  ${field("Conteúdo da aula", `<input name="conteudo" placeholder="Ex.: Present Perfect" value="${esc(e.doc && e.doc.conteudo)}">`, "full")}
+  ${field("Link do material (Google Drive)", `<input name="material" inputmode="url" placeholder="https://drive.google.com/…" value="${esc(e.doc && e.doc.material)}">`, "full")}
+  ${field("Link da aula (só se for diferente do link fixo)", `<input name="link" inputmode="url" placeholder="${esc(e.aluno.link || "Meet, Zoom…")}" value="${esc(e.doc && e.doc.link)}">`, "full")}
+  </div><p class="hint">Ao salvar, o conteúdo e o material aparecem no Portal do aluno.</p></div>
+  <div class="m-f"><button type="button" class="btn" data-act="close">Cancelar</button><button class="btn pri" type="submit">Salvar</button></div></form>`,
+    "sm",
+  );
   layer.ev = e;
 }
 function reschedForm(e) {
@@ -3357,7 +3932,9 @@ function novaAulaForm(aid, date, hora) {
   ${field("Duração", `<select name="duracao">${[30, 45, 60, 90, 120].map((m) => `<option value="${m}" ${m === (Number(selA && selA.duracao) || cfg().duracaoPadrao) ? "selected" : ""}>${m} min</option>`).join("")}</select>`)}
   ${field("Status", `<select name="status"><option value="agendada" ${aid ? "" : "selected"}>Agendada</option><option value="realizada" ${aid ? "selected" : ""}>Realizada</option></select>`)}
   ${field("Conteúdo trabalhado", `<textarea name="conteudo"></textarea>`, "full")}
-  ${field("Observações", `<textarea name="obs"></textarea>`, "full")}
+  ${field("Observações para o aluno", `<textarea name="obs"></textarea>`, "full")}
+  ${field("Link do material (Google Drive)", `<input name="material" inputmode="url" placeholder="https://drive.google.com/…">`, "full")}
+  ${field("Link da aula (só se for diferente do link fixo)", `<input name="link" inputmode="url" placeholder="Meet, Zoom…">`, "full")}
   </div><p class="hint">Use para reposições ou aulas extras fora do horário fixo.</p></div>
   <div class="m-f"><button type="button" class="btn" data-act="close">Cancelar</button><button class="btn pri" type="submit">Salvar aula</button></div></form>`);
 }
@@ -3440,6 +4017,7 @@ document.addEventListener("click", async (ev) => {
     return;
   }
   if (act === "cal-day" && ev.target.closest(".pill")) return;
+  if (calAction(act, d)) return;
   switch (act) {
     case "close":
       closeLayer();
@@ -3477,6 +4055,7 @@ document.addEventListener("click", async (ev) => {
         "Isso apaga o aluno, o histórico de aulas e os pagamentos dele. Para só tirar da agenda, use Encerrado.",
         "Excluir definitivamente",
         async () => {
+          for (const [uid] of acessosDoAluno(d.id)) await W(() => coll("usuarios").doc(uid).delete());
           for (const x of S.aulasBy[d.id] || []) await W(() => coll("aulas").doc(x.id).delete());
           for (const m of Object.keys(S.pagsBy[d.id] || {}))
             await W(() =>
@@ -3494,35 +4073,6 @@ document.addEventListener("click", async (ev) => {
     }
     case "ev":
       openEv(d.key, d.date);
-      break;
-    case "cal-prev":
-    case "cal-next": {
-      const s = act === "cal-prev" ? -1 : 1;
-      const c = UI.cal,
-        x = parse(c.date);
-      c.date = ymd(
-        c.mode === "dia"
-          ? addDays(x, s)
-          : c.mode === "semana"
-            ? addDays(x, 7 * s)
-            : new Date(x.getFullYear(), x.getMonth() + s, 1),
-      );
-      draw();
-      break;
-    }
-    case "cal-today":
-      UI.cal.date = today();
-      draw();
-      break;
-    case "cal-mode":
-      UI.cal.mode = d.v;
-      draw();
-      break;
-    case "cal-day":
-      UI.cal.date = d.date;
-      UI.cal.mode = "dia";
-      if (UI.route !== "calendario") go("#/calendario");
-      else draw();
       break;
     case "nova-aula":
       novaAulaForm(d.aid || null);
@@ -3585,6 +4135,24 @@ document.addEventListener("click", async (ev) => {
       }
       break;
     }
+    case "ev-mat": {
+      const e = findEv(UI.ev.key, UI.ev.date);
+      if (e) {
+        const keep = UI.ev;
+        matForm(e);
+        UI.ev = keep;
+      }
+      break;
+    }
+    case "acesso-criar":
+      acessoForm(d.id);
+      break;
+    case "acesso-copiar":
+      copiarConvite(d.id);
+      break;
+    case "acesso-remover":
+      removerAcesso(d.id);
+      break;
     case "ev-edit": {
       const e = findEv(UI.ev.key, UI.ev.date);
       if (e) {
@@ -3666,11 +4234,7 @@ document.addEventListener("keydown", (e) => {
     closeLayer();
     draw();
   }
-  if (e.key === "Enter" && e.target.classList && e.target.classList.contains("mo-c")) {
-    UI.cal.date = e.target.dataset.date;
-    UI.cal.mode = "dia";
-    draw();
-  }
+  calKey(e);
 });
 document.addEventListener("input", (e) => {
   if (e.target.id === "q") {
@@ -3687,11 +4251,7 @@ document.addEventListener("change", (e) => {
     $("#alList").innerHTML = alunosList();
     return;
   }
-  if (t.id === "calGo" && t.value) {
-    UI.cal.date = t.value;
-    draw();
-    return;
-  }
+  if (calChange(t)) return;
   if (t.id === "finMes" && t.value) {
     UI.fin.mes = t.value;
     draw();
@@ -3748,6 +4308,8 @@ document.addEventListener("submit", async (e) => {
           conteudo: fd.get("conteudo") || "",
           tarefas: fd.get("tarefas") || "",
           obs: fd.get("obs") || "",
+          material: String(fd.get("material") || "").trim(),
+          link: String(fd.get("link") || "").trim(),
           registradoEm: today(),
         })
       ) {
@@ -3766,6 +4328,8 @@ document.addEventListener("submit", async (e) => {
         conteudo: fd.get("conteudo") || "",
         tarefas: fd.get("tarefas") || "",
         obs: fd.get("obs") || "",
+        material: String(fd.get("material") || "").trim(),
+        link: String(fd.get("link") || "").trim(),
         status: st,
       };
       const h = fd.get("hora");
@@ -3782,6 +4346,23 @@ document.addEventListener("submit", async (e) => {
         UI.ev = keep;
         draw();
       }
+    } else if (f.id === "matForm") {
+      const e2 = layer.ev;
+      const keep = UI.ev;
+      if (
+        await writeEv(e2, {
+          conteudo: String(fd.get("conteudo") || "").trim(),
+          material: String(fd.get("material") || "").trim(),
+          link: String(fd.get("link") || "").trim(),
+        })
+      ) {
+        toast("Material salvo. Já aparece no Portal do aluno.");
+        layer = null;
+        UI.ev = keep;
+        draw();
+      }
+    } else if (f.id === "acessoForm") {
+      await salvarAcesso(f, fd);
     } else if (f.id === "reschedForm") {
       const e2 = layer.ev;
       const nd = fd.get("data"),
@@ -3808,6 +4389,8 @@ document.addEventListener("submit", async (e) => {
         extra: true,
         conteudo: fd.get("conteudo") || "",
         obs: fd.get("obs") || "",
+        material: String(fd.get("material") || "").trim(),
+        link: String(fd.get("link") || "").trim(),
       };
       if (st === "realizada") doc.numero = Number(a.aulaAtual) || 1;
       if (
@@ -4071,9 +4654,9 @@ const LocalDB = (() => {
       async get() {
         return docSnap(path);
       },
-      async set(data) {
+      async set(data, opts) {
         commit(() => {
-          store[path] = clone(data);
+          store[path] = opts && opts.merge ? { ...(store[path] || {}), ...clone(data) } : clone(data);
         });
       },
       async update(data) {
@@ -4120,7 +4703,7 @@ const LocalDB = (() => {
 
 /* ============================== js/data/sync.js ============================== */
 "use strict";
-/* Sincronização: assina as coleções do banco e mantém o estado (S) atualizado em tempo real. */
+/* Sincronização do painel: assina as coleções do banco e mantém o estado (S) atualizado em tempo real. */
 
 let UNSUBS = [];
 function stopSubs() {
@@ -4133,14 +4716,46 @@ function stopSubs() {
 }
 function resetData() {
   S.alunos = {};
+  S.alunosPub = {};
+  S.alunosPriv = {};
   S.aulas = {};
   S.pags = {};
+  S.usuarios = {};
   S.config = { ...DEFAULT_CONFIG };
-  S.ready = { alunos: 0, aulas: 0, pags: 0, config: 0 };
+  S.ready = { alunos: 0, alunosPub: 0, alunosPriv: 0, aulas: 0, pags: 0, config: 0 };
   S.aulasBy = {};
   S.pagsBy = {};
   S.noDb = false;
   S.noDbMsg = "";
+  S.migrado = false;
+}
+const toMap = (s) => {
+  const o = {};
+  s.docs.forEach((d) => {
+    o[d.id] = d.data();
+  });
+  return o;
+};
+/* Junta o cadastro público (alunos) com as anotações privadas (alunosPriv). */
+function composeAlunos() {
+  const o = {};
+  for (const [id, v] of Object.entries(S.alunosPub)) o[id] = { ...v, ...(S.alunosPriv[id] || {}) };
+  S.alunos = o;
+  S.ready.alunos = S.ready.alunosPub && S.ready.alunosPriv ? 1 : 0;
+  if (S.ready.alunos && !S.migrado) migrarPrivados();
+}
+/* Dados antigos guardavam as anotações privadas junto do cadastro.
+   Na primeira carga, move esses campos para "alunosPriv". */
+async function migrarPrivados() {
+  S.migrado = true;
+  for (const [id, pub] of Object.entries(S.alunosPub)) {
+    if (!PRIV_FIELDS.some((k) => k in pub)) continue;
+    try {
+      await alunoRef(id).set(S.alunos[id]);
+    } catch (e) {
+      console.warn("Migração de", id, e);
+    }
+  }
 }
 function startSubs(db) {
   stopSubs();
@@ -4157,17 +4772,19 @@ function startSubs(db) {
         : "A conexão com o banco de dados falhou. Verifique a internet e tente de novo.";
     draw();
   };
-  const toMap = (s) => {
-    const o = {};
-    s.docs.forEach((d) => {
-      o[d.id] = d.data();
-    });
-    return o;
-  };
   UNSUBS.push(
     db.collection("alunos").onSnapshot((s) => {
-      S.alunos = toMap(s);
-      S.ready.alunos = 1;
+      S.alunosPub = toMap(s);
+      S.ready.alunosPub = 1;
+      composeAlunos();
+      render();
+    }, snapErr),
+  );
+  UNSUBS.push(
+    db.collection("alunosPriv").onSnapshot((s) => {
+      S.alunosPriv = toMap(s);
+      S.ready.alunosPriv = 1;
+      composeAlunos();
       render();
     }, snapErr),
   );
@@ -4192,13 +4809,24 @@ function startSubs(db) {
       render();
     }, snapErr),
   );
+  // Acessos do Portal do Aluno (só existem no modo nuvem)
+  if (S.modo === "firebase")
+    UNSUBS.push(
+      db.collection("usuarios").onSnapshot(
+        (s) => {
+          S.usuarios = toMap(s);
+          render();
+        },
+        (e) => console.warn("usuarios", e),
+      ),
+    );
 }
 
 
-/* ============================== js/data/firebase.js ============================== */
+/* ============================== js/data/firebase-core.js ============================== */
 "use strict";
-/* Modo Firebase: login com e-mail/senha e banco Firestore na nuvem.
-   Só é ativado quando js/config.js tem os dados do projeto Firebase. */
+/* Firebase: carregamento do SDK e mensagens de erro de login.
+   Usado pelo painel do professor e pelo Portal do Aluno. */
 
 function firebaseConfigurado() {
   const c = APP_CONFIG.firebase || {};
@@ -4221,46 +4849,8 @@ async function carregarFirebase() {
     await loadScript(base + f);
 }
 
-function lock(on) {
-  document.body.classList.toggle("locked", on);
-  if (on) {
-    closeLayer();
-    const e = $("#loginForm [name=email]");
-    if (e && window.innerWidth > 860) setTimeout(() => e.focus(), 50);
-  }
-}
-
-function authMsg(e) {
-  const c = (e && e.code) || "";
-  if (/invalid-credential|wrong-password|user-not-found|invalid-login/.test(c))
-    return "E-mail ou senha incorretos.";
-  if (/invalid-email|missing-email/.test(c)) return "Digite um e-mail válido.";
-  if (/missing-password/.test(c)) return "Digite a senha.";
-  if (/too-many-requests/.test(c)) return "Muitas tentativas. Aguarde alguns minutos e tente de novo.";
-  if (/user-disabled/.test(c)) return "Esta conta foi desativada.";
-  if (/network/.test(c)) return "Sem conexão com a internet.";
-  return "Não foi possível entrar. Tente de novo.";
-}
-
-async function logout() {
-  if (S.modo !== "firebase") return;
-  try {
-    await firebase.auth().signOut();
-  } catch (e) {
-    toast("Não foi possível sair.", true);
-  }
-}
-
-async function iniciarFirebase() {
-  try {
-    await carregarFirebase();
-  } catch (e) {
-    console.error(e);
-    S.noDb = true;
-    S.noDbMsg = "Não foi possível carregar o Firebase. Verifique a conexão com a internet.";
-    draw();
-    return;
-  }
+/* Inicializa o app e o banco com as mesmas opções nos dois sites. */
+function iniciarApp() {
   firebase.initializeApp(APP_CONFIG.firebase);
   const db = firebase.firestore();
   try {
@@ -4273,6 +4863,80 @@ async function iniciarFirebase() {
   try {
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
   } catch (e) {}
+  return { db, auth };
+}
+
+function authMsg(e, quem) {
+  const c = (e && e.code) || "";
+  if (/invalid-credential|wrong-password|user-not-found|invalid-login/.test(c))
+    return quem === "aluno" ? "Usuário ou senha incorretos." : "E-mail ou senha incorretos.";
+  if (/invalid-email|missing-email/.test(c))
+    return quem === "aluno" ? "Digite seu usuário." : "Digite um e-mail válido.";
+  if (/missing-password/.test(c)) return "Digite a senha.";
+  if (/too-many-requests/.test(c)) return "Muitas tentativas. Aguarde alguns minutos e tente de novo.";
+  if (/user-disabled/.test(c)) return "Esta conta foi desativada.";
+  if (/weak-password/.test(c)) return "A senha precisa ter pelo menos 6 caracteres.";
+  if (/requires-recent-login/.test(c)) return "Por segurança, saia e entre de novo antes de trocar a senha.";
+  if (/network/.test(c)) return "Sem conexão com a internet.";
+  return "Não foi possível entrar. Tente de novo.";
+}
+
+
+/* ============================== js/data/firebase.js ============================== */
+"use strict";
+/* Modo Firebase: login com e-mail/senha e banco Firestore na nuvem.
+   Só é ativado quando js/config.js tem os dados do projeto Firebase. */
+
+function lock(on) {
+  document.body.classList.toggle("locked", on);
+  if (on) {
+    closeLayer();
+    const e = $("#loginForm [name=email]");
+    if (e && window.innerWidth > 860) setTimeout(() => e.focus(), 50);
+  }
+}
+
+async function logout() {
+  if (S.modo !== "firebase") return;
+  try {
+    await firebase.auth().signOut();
+  } catch (e) {
+    toast("Não foi possível sair.", true);
+  }
+}
+
+/* Conta de aluno não entra no painel. As regras do Firestore já bloqueiam
+   os dados; aqui a pessoa só recebe uma mensagem clara e o link do portal. */
+async function abrirPainel(db, user) {
+  let aluno = false;
+  try {
+    aluno = (await db.collection("usuarios").doc(user.uid).get()).exists;
+  } catch (e) {}
+  if (aluno || String(user.email || "").endsWith("@" + PORTAL_DOMINIO)) {
+    stopSubs();
+    resetData();
+    S.db = null;
+    S.noDb = true;
+    S.noDbMsg = "Esta é uma conta de aluno. O painel de gestão é exclusivo do professor.";
+    S.contaAluno = true;
+    draw();
+    return;
+  }
+  S.contaAluno = false;
+  startSubs(db);
+}
+
+async function iniciarFirebase() {
+  try {
+    await carregarFirebase();
+  } catch (e) {
+    console.error(e);
+    S.noDb = true;
+    S.noDbMsg = "Não foi possível carregar o Firebase. Verifique a conexão com a internet.";
+    draw();
+    return;
+  }
+  const { db, auth } = iniciarApp();
 
   const form = $("#loginForm"),
     err = $("#loginErr"),
@@ -4323,7 +4987,7 @@ async function iniciarFirebase() {
     S.user = user || null;
     if (user) {
       lock(false);
-      startSubs(db);
+      abrirPainel(db, user);
     } else {
       stopSubs();
       resetData();
@@ -4332,6 +4996,172 @@ async function iniciarFirebase() {
       $("#main").innerHTML = '<div class="loading">Carregando…</div>';
     }
   });
+}
+
+
+/* ============================== js/data/portal-acesso.js ============================== */
+"use strict";
+/* Painel: criar, copiar e remover o acesso de um aluno ao Portal do Aluno.
+
+   Como funciona:
+   - Cada aluno ganha uma conta no Firebase Authentication. O login é o
+     nome de usuário (ex.: "João Silva"), convertido num e-mail interno
+     (joao.silva@alunos.oteachertiago.app). A senha inicial é o WhatsApp
+     cadastrado, só com números. O aluno troca no primeiro acesso.
+   - A coleção "usuarios" liga a conta (uid) ao cadastro do aluno.
+     As regras do Firestore usam esse vínculo para liberar só os dados dele.
+   - Remover o acesso apaga esse vínculo: a conta continua existindo no
+     Authentication, mas não enxerga mais nada. */
+
+const acessosDoAluno = (aid) => Object.entries(S.usuarios || {}).filter(([, u]) => u.alunoId === aid);
+const portalUrl = () => new URL("aluno.html", location.href).href;
+
+function cardPortal(id, a) {
+  const head = `<div class="sec-title"><h2>Portal do aluno</h2></div>`;
+  if (S.modo !== "firebase")
+    return `<section class="glass sec">${head}<p class="muted" style="margin:0">O acesso individual dos alunos funciona no modo nuvem. Configure o Firebase para liberar o Portal do Aluno.</p></section>`;
+  const ac = acessosDoAluno(id)[0];
+  if (!ac)
+    return `<section class="glass sec">${head}<p class="muted" style="margin:0 0 12px">${esc(first(a.nome))} ainda não tem acesso. Ao criar, o usuário é o nome dele e a senha inicial é o WhatsApp cadastrado.</p>
+      <button class="btn pri sm" data-act="acesso-criar" data-id="${id}">${I.plus}Criar acesso</button></section>`;
+  const u = ac[1];
+  const st = u.senhaTrocada ? bdg("ativo", "Ativo") : bdg("pendente", "Aguardando primeiro acesso");
+  return `<section class="glass sec">${head}<div class="kv" style="margin-bottom:14px">
+      <div><small>Usuário</small>${esc(u.usuario)}</div>
+      <div><small>Situação</small>${st}</div>
+      <div><small>Senha inicial</small>${u.senhaTrocada ? '<span class="dim">Já foi trocada pelo aluno</span>' : "WhatsApp, só números"}</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm pri" data-act="acesso-copiar" data-id="${id}">Copiar convite</button><button class="btn sm danger" data-act="acesso-remover" data-id="${id}">Remover acesso</button></div>
+    <p class="hint">Se o aluno esquecer a senha: remova o acesso, apague a conta dele em Firebase → Authentication → Usuários e crie o acesso de novo.</p></section>`;
+}
+
+function acessoForm(aid) {
+  const a = S.alunos[aid];
+  const tel = digitos(a.whatsapp);
+  openModal(
+    `<form id="acessoForm" data-aid="${aid}"><div class="m-h"><h2>Criar acesso ao portal</h2><button type="button" class="x" data-act="close">${I.x}</button></div>
+  <div class="m-b"><div class="fg">
+  ${field("Usuário", `<input name="usuario" required value="${esc(a.nome)}" autocomplete="off">`, "full")}
+  </div>
+  <p class="hint">É com esse nome que ${esc(first(a.nome))} entra no portal. Maiúsculas e acentos não fazem diferença.</p>
+  <div class="kv" style="margin-top:14px"><div><small>Senha inicial</small>${tel.length >= 6 ? esc(tel) + ' <span class="dim">(WhatsApp, só números)</span>' : '<span style="color:var(--red-t)">Cadastre o WhatsApp do aluno antes de criar o acesso.</span>'}</div></div></div>
+  <div class="m-f"><button type="button" class="btn" data-act="close">Cancelar</button><button class="btn pri" type="submit" ${tel.length >= 6 ? "" : "disabled"}>Criar acesso</button></div></form>`,
+    "sm",
+  );
+}
+
+async function salvarAcesso(f, fd) {
+  const aid = f.dataset.aid;
+  const a = S.alunos[aid];
+  const usuario = String(fd.get("usuario") || "").trim();
+  const email = usuarioParaEmail(usuario);
+  const senha = digitos(a.whatsapp);
+  if (!email) return toast("Digite um nome de usuário.", true);
+  if (senha.length < 6) return toast("Cadastre o WhatsApp do aluno antes de criar o acesso.", true);
+  const igual = Object.entries(S.usuarios || {}).find(
+    ([, u]) => usuarioParaEmail(u.usuario) === email && u.alunoId !== aid,
+  );
+  if (igual) return toast("Esse usuário já é de outro aluno. Use, por exemplo, o nome com sobrenome.", true);
+
+  // Cria a conta numa instância separada do Firebase, para não desconectar o professor.
+  const app =
+    firebase.apps.find((x) => x.name === "cadastro") ||
+    firebase.initializeApp(APP_CONFIG.firebase, "cadastro");
+  const auth2 = app.auth();
+  try {
+    await auth2.setPersistence(firebase.auth.Auth.Persistence.NONE);
+  } catch (e) {}
+  let uid = null;
+  try {
+    uid = (await auth2.createUserWithEmailAndPassword(email, senha)).user.uid;
+  } catch (e) {
+    if (e && e.code === "auth/email-already-in-use") {
+      // A conta já existia (acesso removido antes): reaproveita se a senha ainda for a inicial.
+      try {
+        uid = (await auth2.signInWithEmailAndPassword(email, senha)).user.uid;
+      } catch (e2) {
+        toast(
+          "Já existe uma conta com esse usuário. Escolha outro nome ou apague a conta antiga no Firebase → Authentication.",
+          true,
+        );
+        return;
+      }
+    } else {
+      console.error(e);
+      toast(authMsg(e), true);
+      return;
+    }
+  } finally {
+    try {
+      await auth2.signOut();
+    } catch (e) {}
+  }
+  const outro = S.usuarios[uid];
+  if (outro && outro.alunoId !== aid) {
+    toast("Esse usuário já pertence a outro aluno.", true);
+    return;
+  }
+  const ok = await W(
+    () =>
+      coll("usuarios").doc(uid).set({
+        alunoId: aid,
+        usuario,
+        nome: a.nome,
+        criadoEm: today(),
+        senhaTrocada: false,
+      }),
+    "Acesso criado",
+  );
+  if (ok) {
+    closeLayer();
+    draw();
+  }
+}
+
+async function copiarConvite(aid) {
+  const a = S.alunos[aid];
+  const ac = acessosDoAluno(aid)[0];
+  if (!ac) return;
+  const u = ac[1];
+  const txt =
+    `Olá, ${first(a.nome)}! Sua Área do Aluno do Teacher Tiago está pronta.\n\n` +
+    `Acesse: ${portalUrl()}\n` +
+    `Usuário: ${u.usuario}\n` +
+    (u.senhaTrocada
+      ? `Senha: a que você criou no primeiro acesso.\n`
+      : `Senha inicial: seu WhatsApp, só números (${digitos(a.whatsapp)})\n\nNo primeiro acesso você vai criar uma senha nova.\n`) +
+    `\nLá você encontra suas aulas, o link para entrar, os materiais e o financeiro.`;
+  let ok = false;
+  try {
+    await navigator.clipboard.writeText(txt);
+    ok = true;
+  } catch (e) {
+    const t = document.createElement("textarea");
+    t.value = txt;
+    t.style.position = "fixed";
+    t.style.opacity = "0";
+    document.body.appendChild(t);
+    t.select();
+    try {
+      ok = document.execCommand("copy");
+    } catch (e2) {}
+    t.remove();
+  }
+  toast(ok ? "Convite copiado. Cole no WhatsApp do aluno." : "Não foi possível copiar.", !ok);
+}
+
+function removerAcesso(aid) {
+  const a = S.alunos[aid];
+  confirmBox(
+    "Remover acesso de " + first(a.nome) + "?",
+    "O aluno deixa de entrar no portal imediatamente. Os dados dele continuam salvos no painel.",
+    "Remover acesso",
+    async () => {
+      for (const [uid] of acessosDoAluno(aid)) await W(() => coll("usuarios").doc(uid).delete());
+      toast("Acesso removido");
+      closeLayer();
+      draw();
+    },
+  );
 }
 
 
