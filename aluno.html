@@ -2287,12 +2287,12 @@ body.locked #login {
    ============================================================ */
 const APP_CONFIG = {
   firebase: {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: "",
+    apiKey: "AIzaSyBMTFECiovtW5Vs5s21d0NQkqLMs8MMvqY",
+    authDomain: "o-teacher-tiago.firebaseapp.com",
+    projectId: "o-teacher-tiago",
+    storageBucket: "o-teacher-tiago.firebasestorage.app",
+    messagingSenderId: "336097006902",
+    appId: "1:336097006902:web:5ba4f064d377b556958f97",
   },
   firebaseVersion: "10.12.2",
 };
@@ -3141,6 +3141,8 @@ function authMsg(e, quem) {
   if (/user-disabled/.test(c)) return "Esta conta foi desativada.";
   if (/weak-password/.test(c)) return "A senha precisa ter pelo menos 6 caracteres.";
   if (/requires-recent-login/.test(c)) return "Por segurança, saia e entre de novo antes de trocar a senha.";
+  if (/api-key|invalid-api|configuration-not-found/.test(c))
+    return "A configuração do Firebase está incorreta. Confira o bloco APP_CONFIG.";
   if (/network/.test(c)) return "Sem conexão com a internet.";
   return "Não foi possível entrar. Tente de novo.";
 }
